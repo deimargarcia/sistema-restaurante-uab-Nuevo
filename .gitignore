@@ -1,0 +1,6 @@
+/vendor/
+/.phpunit.cache/
+/.env
+/reports/*.xml
+!/reports/phpunit.xml
+!/reports/.gitkeep
