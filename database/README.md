@@ -1,0 +1,34 @@
+# Crear la base local
+
+El esquema completo está en [`schema.sql`](schema.sql). El script crea la base
+`restaurante_rumbo_al_cielo` si no existe, la selecciona y crea sus tablas.
+
+## Importar con phpMyAdmin
+
+1. Inicia el servidor MySQL/MariaDB.
+2. En phpMyAdmin, importa `schema.sql` desde la pestaña **Importar**. El usuario
+   de la conexión necesita permiso para crear bases y tablas.
+3. Configura las variables de entorno de la aplicación (`DB_HOST`, `DB_PORT`,
+   `DB_NAME`, `DB_USER` y `DB_PASS`) con las credenciales locales.
+4. Ejecuta `php scripts/check-database.php` desde la raíz del proyecto.
+
+No se guardan contraseñas en Git. `.env.example` sirve como referencia; PHP no
+carga ese archivo automáticamente, así que cada entorno debe proporcionar las
+variables al proceso PHP/Apache o usar una herramienta de configuración local.
+
+## XAMPP en Windows
+
+Si XAMPP escucha en el puerto habitual:
+
+```powershell
+$env:DB_HOST = '127.0.0.1'
+$env:DB_PORT = '3306'
+$env:DB_NAME = 'restaurante_rumbo_al_cielo'
+$env:DB_USER = 'root'
+$env:DB_PASS = ''
+& 'C:\xampp\php\php.exe' scripts/check-database.php
+```
+
+Si MariaDB está configurado en otro puerto, cambia `DB_PORT`. Para Apache, las
+variables deben estar disponibles en el proceso que ejecuta PHP, no solo en una
+terminal distinta.

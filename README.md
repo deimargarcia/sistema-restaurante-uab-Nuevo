@@ -47,6 +47,14 @@ composer test:report
 
 El último comando crea `reports/phpunit.xml` en la ejecución local; se conserva como evidencia de entrega según las reglas del curso.
 
+## Base de datos
+
+El esquema para crear la base está en [`database/schema.sql`](database/schema.sql).
+Los pasos de importación y configuración de credenciales están en
+[`database/README.md`](database/README.md). Después de importar el esquema,
+`php scripts/check-database.php` comprueba la conexión y muestra cuántas tablas
+encuentra sin imprimir credenciales.
+
 ## Migración
 
 Se migrará módulo por módulo desde el repositorio anterior. Cada incremento incluirá comportamiento, pruebas unitarias para criterios de aceptación y documentación actualizada. Las historias de usuario y sus criterios se vincularán con pruebas en una matriz de trazabilidad que se completará al incorporar el backlog fuente.
