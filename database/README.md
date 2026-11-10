@@ -1,7 +1,7 @@
 # Crear la base local
 
 El esquema completo está en [`schema.sql`](schema.sql). El script crea la base
-`restaurante_rumbo_al_cielo` si no existe, la selecciona y crea sus tablas.
+`restaurante_rumbo_al_cielo_nuevo` si no existe, la selecciona y crea sus tablas.
 
 ## Importar con phpMyAdmin
 
@@ -23,7 +23,7 @@ Si XAMPP escucha en el puerto habitual:
 ```powershell
 $env:DB_HOST = '127.0.0.1'
 $env:DB_PORT = '3306'
-$env:DB_NAME = 'restaurante_rumbo_al_cielo'
+$env:DB_NAME = 'restaurante_rumbo_al_cielo_nuevo'
 $env:DB_USER = 'root'
 $env:DB_PASS = ''
 & 'C:\xampp\php\php.exe' scripts/check-database.php

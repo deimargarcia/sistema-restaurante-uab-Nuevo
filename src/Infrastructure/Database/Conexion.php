@@ -11,7 +11,7 @@ final class Conexion
     {
         $host = getenv('DB_HOST') ?: '127.0.0.1';
         $puerto = getenv('DB_PORT') ?: '3306';
-        $base = getenv('DB_NAME') ?: 'restaurante_rumbo_al_cielo';
+        $base = getenv('DB_NAME') ?: 'restaurante_rumbo_al_cielo_nuevo';
         $usuario = getenv('DB_USER') ?: 'root';
         $clave = getenv('DB_PASS') ?: '';
         $dsn = "mysql:host={$host};port={$puerto};dbname={$base};charset=utf8mb4";

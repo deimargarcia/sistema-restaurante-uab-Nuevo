@@ -4,9 +4,9 @@
 -- Compatible con MySQL 8 / MariaDB / phpMyAdmin
 -- =============================================
 
-CREATE DATABASE IF NOT EXISTS restaurante_rumbo_al_cielo
+CREATE DATABASE IF NOT EXISTS restaurante_rumbo_al_cielo_nuevo
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE restaurante_rumbo_al_cielo;
+USE restaurante_rumbo_al_cielo_nuevo;
 
 -- -----------------------------------------------
 -- 1. USUARIOS / EMPLEADOS
