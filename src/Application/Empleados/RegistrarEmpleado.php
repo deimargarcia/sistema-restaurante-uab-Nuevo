@@ -42,7 +42,11 @@ final readonly class RegistrarEmpleado
             $datos['tipo_cuenta'],
         );
 
-        return ResultadoRegistroEmpleado::exito($this->empleados->crear($empleado));
+        try {
+            return ResultadoRegistroEmpleado::exito($this->empleados->crear($empleado));
+        } catch (EmpleadoDuplicado $error) {
+            return ResultadoRegistroEmpleado::rechazo($error->getMessage());
+        }
     }
 
     private function normalizar(array $datos): array

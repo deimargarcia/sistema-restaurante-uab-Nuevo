@@ -34,7 +34,7 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Administración'));
         <span class="etiqueta etiqueta-verde">PANEL DE ADMINISTRACIÓN</span>
         <h1>Hola, <?= $nombre ?></h1>
         <p>La sesión está activa con permisos de administración.</p>
-        <div class="panel-tarjeta"><strong>Acceso confirmado</strong><span>Los módulos de gestión se irán incorporando según las historias de usuario.</span></div>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/empleados.php"><strong>Registrar empleado</strong><span>Agregar a una persona de la nómina y crear su cuenta.</span></a>
     </section>
 </main>
 </body>
