@@ -38,6 +38,10 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Administración'));
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/familiares.php"><strong>Vincular familiar</strong><span>Asociar padres, cónyuge o hijos a un empleado titular.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/pensionamientos.php"><strong>Gestionar afiliaciones</strong><span>Asistir a titulares pensionados con su afiliación mensual y reservas.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/reservas.php"><strong>Consultar reservas del día</strong><span>Revisar reservas, entregas pendientes e inasistencias cobradas.</span></a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/menus.php"><strong>Publicar menú semanal</strong><span>Registrar sopa, plato principal y postre para cada día operativo.</span></a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/cocina.php"><strong>Consolidado de cocina</strong><span>Consultar el total del día y registrar los almuerzos entregados.</span></a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/reportes.php"><strong>Reporte de planilla</strong><span>Generar y revisar los descuentos mensuales por titular y familiares.</span></a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/configuracion.php"><strong>Parámetros y calendario</strong><span>Ajustar tarifas, mínimo mensual, horario límite y feriados.</span></a>
     </section>
 </main>
 </body>

@@ -42,6 +42,6 @@ Esta lista indica qué criterios ya tienen una prueba automatizada y cuáles fal
 | 5. Pensión y reservas para familiares | `AfiliarBeneficiarioTest::testTitularPensionadoPuedeAfiliarFamiliar`, `testNoPensionadoNoPuedeAfiliarFamiliares` y `testFamiliarDebeEstarActivoYVinculadoAlTitular`; el administrador también puede asistir con `ControladorPensionamientosTest`. |
 | 6. Reservas esporádicas y horario límite | `CrearReservaTest` valida fecha operativa, feriados, hora límite, menú publicado, titular/familiar autorizado, duplicados, modalidad y tarifa. `ControladorReservasTest` limita la creación a empleados. |
 | 7. Cancelaciones e inasistencias | `CancelarReservaTest` valida propiedad, estado, hora límite y mínimo mensual; `ListarReservasTitular` y `ListarReservasDia` actualizan estados para separar reservas pendientes de entrega de inasistencias cobradas. El administrador tiene consulta diaria. |
-| 8. Publicación y consulta del menú | Pendiente de migrar el caso de uso y sus pruebas. |
-| 9. Reportes y descuento por planilla | Pendiente de migrar el caso de uso y sus pruebas. |
-| 10. Configuración y calendario | Pendiente de migrar el caso de uso y sus pruebas. |
+| 8. Menú semanal y cocina | `PublicarMenuTest` valida fecha operativa, feriados y platos requeridos; `RegistrarEntregaTest` valida el corte y el estado pendiente. La pantalla de cocina consolida titulares/familiares y separa entregados e inasistencias. |
+| 9. Reportes y descuento por planilla | `GenerarReporteMensualTest::testCalculaMinimoTarifasPenalizacionFamiliarYTotal` valida el mínimo del titular, las tarifas, la penalización familiar y el total. El periodo debe estar cerrado y el reporte queda guardado para consulta. |
+| 10. Configuración y calendario | `ParametrosSistemaTest` valida tarifas, mínimo, horario, feriados y restauración de un día operativo. El administrador cambia valores consumidos por reservas, afiliaciones y reportes. |
