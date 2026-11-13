@@ -37,6 +37,7 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Administración'));
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/empleados.php"><strong>Registrar empleado</strong><span>Agregar a una persona de la nómina y crear su cuenta.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/familiares.php"><strong>Vincular familiar</strong><span>Asociar padres, cónyuge o hijos a un empleado titular.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/pensionamientos.php"><strong>Gestionar afiliaciones</strong><span>Asistir a titulares pensionados con su afiliación mensual y reservas.</span></a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/reservas.php"><strong>Consultar reservas del día</strong><span>Revisar reservas, entregas pendientes e inasistencias cobradas.</span></a>
     </section>
 </main>
 </body>

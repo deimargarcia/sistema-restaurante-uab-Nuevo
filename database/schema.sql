@@ -124,12 +124,13 @@ CREATE TABLE IF NOT EXISTS reservas (
   fecha_reserva     DATE          NOT NULL,
   estado            ENUM('RESERVADO','CANCELADO','PENDIENTE_ENTREGA','ENTREGADO','COBRADO_INASISTENCIA') NOT NULL DEFAULT 'RESERVADO',
   modalidad         ENUM('PENSIONADO','ESPORADICO') NOT NULL DEFAULT 'ESPORADICO',
+  reserva_activa    TINYINT GENERATED ALWAYS AS (IF(estado = 'CANCELADO', NULL, 1)) STORED,
   fecha_creacion    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   fecha_cancelacion DATETIME      NULL DEFAULT NULL,
   FOREIGN KEY (usuario_id)  REFERENCES usuarios(id)  ON DELETE SET NULL,
   FOREIGN KEY (familiar_id) REFERENCES familiares(id) ON DELETE SET NULL,
-  UNIQUE KEY uq_reserva_titular  (usuario_id,  fecha_reserva, tipo_beneficiario),
-  UNIQUE KEY uq_reserva_familiar (familiar_id, fecha_reserva),
+  UNIQUE KEY uq_reserva_titular  (usuario_id,  fecha_reserva, tipo_beneficiario, reserva_activa),
+  UNIQUE KEY uq_reserva_familiar (familiar_id, fecha_reserva, reserva_activa),
   INDEX idx_fecha (fecha_reserva)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
