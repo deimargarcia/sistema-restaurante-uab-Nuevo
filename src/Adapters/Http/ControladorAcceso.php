@@ -7,8 +7,10 @@ use Restaurante\Application\Auth\IniciarSesion;
 
 final readonly class ControladorAcceso
 {
-    public function __construct(private IniciarSesion $iniciarSesion)
-    {
+    public function __construct(
+        private IniciarSesion $iniciarSesion,
+        private string $basePath = '',
+    ) {
     }
 
     public function iniciarSesion(string $correoOCi, string $contrasena): array
@@ -29,14 +31,14 @@ final readonly class ControladorAcceso
         $_SESSION['tipo_cuenta'] = $resultado->tipoCuenta;
         $_SESSION['codigo_empleado'] = $resultado->codigoEmpleado;
 
-        $destino = $resultado->tipoCuenta === 'ADMIN'
-            ? '/admin/dashboard.php'
-            : '/empleado/dashboard.php';
+        $panel = $resultado->tipoCuenta === 'ADMIN'
+            ? '/public/admin/dashboard.php'
+            : '/public/empleado/dashboard.php';
 
         return [
             'exito' => true,
             'mensaje' => 'Bienvenido/a, ' . $resultado->nombreCompleto,
-            'destino' => $destino,
+            'destino' => rtrim($this->basePath, '/') . $panel,
         ];
     }
 }

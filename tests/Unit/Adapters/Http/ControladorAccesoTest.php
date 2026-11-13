@@ -36,7 +36,7 @@ final class ControladorAccesoTest extends TestCase
         $respuesta = $controlador->iniciarSesion('admin@uab.bo', 'clave-correcta');
 
         self::assertTrue($respuesta['exito']);
-        self::assertSame('/admin/dashboard.php', $respuesta['destino']);
+        self::assertSame('/public/admin/dashboard.php', $respuesta['destino']);
         self::assertSame(14, $_SESSION['usuario_id']);
         self::assertSame('ADMIN', $_SESSION['tipo_cuenta']);
     }
@@ -57,7 +57,7 @@ final class ControladorAccesoTest extends TestCase
 
         $respuesta = $controlador->iniciarSesion('empleado@uab.bo', 'clave-correcta');
 
-        self::assertSame('/empleado/dashboard.php', $respuesta['destino']);
+        self::assertSame('/public/empleado/dashboard.php', $respuesta['destino']);
         self::assertSame('PENSIONADO', $_SESSION['tipo_cuenta']);
     }
 
