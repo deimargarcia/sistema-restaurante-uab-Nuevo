@@ -9,6 +9,7 @@ final readonly class Usuario
         public int $id,
         public string $nombreCompleto,
         public string $correo,
+        public ?string $ci,
         public string $contrasenaHash,
         public string $tipoCuenta,
         public ?string $codigoEmpleado,

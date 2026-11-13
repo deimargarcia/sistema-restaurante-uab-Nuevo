@@ -11,15 +11,19 @@ final readonly class IniciarSesion
     {
     }
 
-    public function ejecutar(string $correo, string $contrasena): ResultadoInicioSesion
+    public function ejecutar(string $correoOCi, string $contrasena): ResultadoInicioSesion
     {
-        $correo = mb_strtolower(trim($correo));
+        $correoOCi = trim($correoOCi);
 
-        if ($correo === '' || $contrasena === '') {
+        if ($correoOCi === '' || $contrasena === '') {
             return ResultadoInicioSesion::rechazo('Completa todos los campos.');
         }
 
-        $usuario = $this->usuarios->buscarPorCorreo($correo);
+        $identificador = str_contains($correoOCi, '@')
+            ? strtolower($correoOCi)
+            : strtoupper($correoOCi);
+
+        $usuario = $this->usuarios->buscarPorIdentificador($identificador);
         if ($usuario === null || !$usuario->verificarContrasena($contrasena)) {
             return ResultadoInicioSesion::rechazo('Credenciales incorrectas.');
         }

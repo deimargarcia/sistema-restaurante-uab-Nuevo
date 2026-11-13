@@ -13,14 +13,19 @@ final readonly class PdoUsuarioRepository implements UsuarioRepository
     {
     }
 
-    public function buscarPorCorreo(string $correo): ?Usuario
+    public function buscarPorIdentificador(string $correoOCi): ?Usuario
     {
         $consulta = $this->conexion->prepare(
             "SELECT id, CONCAT_WS(' ', NULLIF(nombre, ''), NULLIF(apellido, '')) AS nombre_completo,
-                    correo, contrasena, tipo_cuenta, codigo_empleado, activo
-             FROM usuarios WHERE correo = :correo LIMIT 1"
+                    correo, ci, contrasena, tipo_cuenta, codigo_empleado, activo
+             FROM usuarios
+             WHERE LOWER(correo) = :correo OR UPPER(ci) = :ci
+             LIMIT 1"
         );
-        $consulta->execute(['correo' => $correo]);
+        $consulta->execute([
+            'correo' => strtolower($correoOCi),
+            'ci' => strtoupper($correoOCi),
+        ]);
         $fila = $consulta->fetch(PDO::FETCH_ASSOC);
 
         if ($fila === false) {
@@ -31,6 +36,7 @@ final readonly class PdoUsuarioRepository implements UsuarioRepository
             (int) $fila['id'],
             (string) $fila['nombre_completo'],
             (string) $fila['correo'],
+            $fila['ci'] !== null ? (string) $fila['ci'] : null,
             (string) $fila['contrasena'],
             (string) $fila['tipo_cuenta'],
             $fila['codigo_empleado'] !== null ? (string) $fila['codigo_empleado'] : null,

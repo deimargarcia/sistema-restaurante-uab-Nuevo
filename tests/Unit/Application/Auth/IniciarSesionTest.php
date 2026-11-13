@@ -21,6 +21,17 @@ final class IniciarSesionTest extends TestCase
         self::assertSame('ADMIN', $resultado->tipoCuenta);
     }
 
+    public function testPermiteIniciarSesionConCi(): void
+    {
+        $repositorio = new RepositorioUsuarioEnMemoria($this->usuario());
+        $caso = new IniciarSesion($repositorio);
+
+        $resultado = $caso->ejecutar(' ci-001 ', 'clave-correcta');
+
+        self::assertTrue($resultado->exitoso);
+        self::assertSame('CI-001', $repositorio->ultimoIdentificador);
+    }
+
     public function testContrasenaIncorrectaSeRechaza(): void
     {
         $caso = new IniciarSesion(new RepositorioUsuarioEnMemoria($this->usuario()));
@@ -54,21 +65,30 @@ final class IniciarSesionTest extends TestCase
 
     private function usuario(bool $activo = true): Usuario
     {
-        return new Usuario(10, 'Admin Prueba', 'admin@uab.bo', password_hash('clave-correcta', PASSWORD_DEFAULT), 'ADMIN', null, $activo);
+        return new Usuario(10, 'Admin Prueba', 'admin@uab.bo', 'CI-001', password_hash('clave-correcta', PASSWORD_DEFAULT), 'ADMIN', null, $activo);
     }
 }
 
 final class RepositorioUsuarioEnMemoria implements UsuarioRepository
 {
     public int $busquedas = 0;
+    public ?string $ultimoIdentificador = null;
 
     public function __construct(private readonly ?Usuario $usuario)
     {
     }
 
-    public function buscarPorCorreo(string $correo): ?Usuario
+    public function buscarPorIdentificador(string $correoOCi): ?Usuario
     {
         $this->busquedas++;
-        return $this->usuario;
+        $this->ultimoIdentificador = $correoOCi;
+        if ($this->usuario === null) {
+            return null;
+        }
+
+        return strtolower($this->usuario->correo) === strtolower($correoOCi)
+            || strtoupper($this->usuario->ci ?? '') === strtoupper($correoOCi)
+                ? $this->usuario
+                : null;
     }
 }
