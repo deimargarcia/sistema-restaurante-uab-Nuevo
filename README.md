@@ -30,15 +30,23 @@ flowchart TD
 
 ## Lo que ya está trasladado
 
-El primer caso de uso es el inicio de sesión. Acepta correo o CI, verifica la contraseña guardada como hash y rechaza cuentas inactivas. El repositorio PDO busca los datos en MySQL; las pruebas unitarias usan un repositorio en memoria.
+El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. El repositorio PDO consulta los datos en MySQL. La pantalla lleva al usuario al panel que corresponde a su rol; los módulos de administración y empleado se agregarán conforme avancemos con el backlog.
 
-Todavía falta conectar este caso de uso con el controlador web y la pantalla de acceso. Después continuaremos con el registro de empleados y las demás historias del backlog.
+La relación entre las historias, sus criterios y las pruebas que ya existen está en [`docs/trazabilidad-historias.md`](docs/trazabilidad-historias.md).
 
 ## Base de datos local
 
 `database/schema.sql` crea la base `restaurante_rumbo_al_cielo_nuevo` y las tablas que necesita el sistema. La base local ya creada contiene la estructura inicial, sin copiar los registros personales del proyecto anterior.
 
 Para configurar otra instalación, sigue los pasos de [`database/README.md`](database/README.md). El comando `php scripts/check-database.php` confirma la conexión y muestra cuántas tablas encuentra.
+
+Para abrir la pantalla durante el desarrollo, configura las variables de base de datos como se explica en `database/README.md` y ejecuta desde la carpeta del proyecto:
+
+```powershell
+& 'C:\xampp\php\php.exe' -S 127.0.0.1:4173 -t public
+```
+
+Luego visita `http://127.0.0.1:4173`. En XAMPP también puedes apuntar Apache a la carpeta `public`.
 
 ## Pruebas
 
@@ -50,4 +58,4 @@ composer test
 composer test:report
 ```
 
-La prueba unitaria del inicio de sesión cubre correo, CI, contraseña incorrecta, cuenta inactiva y campos vacíos. El reporte se guarda en `reports/phpunit.xml`.
+Las pruebas del acceso cubren correo, CI, contraseña incorrecta, cuenta inactiva, campos vacíos y el panel asignado a cada rol. El reporte se guarda en `reports/phpunit.xml`.
