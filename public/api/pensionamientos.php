@@ -11,9 +11,9 @@ use Restaurante\Infrastructure\Database\Conexion;
 iniciarSesionWeb();
 header('Content-Type: application/json; charset=utf-8');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'], true)) {
     http_response_code(405);
-    echo json_encode(['exito' => false, 'mensaje' => 'Método no permitido.']);
+    echo json_encode(['exito' => false, 'mensaje' => 'Método no permitido.'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -23,18 +23,35 @@ if (empty($_SESSION['usuario_id']) || !in_array($_SESSION['tipo_cuenta'] ?? '', 
     exit;
 }
 
-if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', (string) ($_POST['periodo'] ?? ''), $coincidencias)) {
-    http_response_code(422);
-    echo json_encode(['exito' => false, 'mensaje' => 'Selecciona un periodo válido.']);
-    exit;
-}
-
 try {
-    $periodo = explode('-', $coincidencias[0]);
+    $repositorio = new PdoPensionamientoRepository(Conexion::crearDesdeEntorno());
     $controlador = new ControladorPensionamientos(
-        new AfiliarBeneficiario(new PdoPensionamientoRepository(Conexion::crearDesdeEntorno()))
+        new AfiliarBeneficiario($repositorio)
     );
-    $resultado = $controlador->afiliarTitular((int) $_SESSION['usuario_id'], (int) $periodo[0], (int) $periodo[1]);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $resultado = $controlador->listarFamiliares((int) $_SESSION['usuario_id']);
+        http_response_code($resultado['exito'] ? 200 : 403);
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if (!preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', (string) ($_POST['periodo'] ?? ''), $coincidencias)) {
+        http_response_code(422);
+        echo json_encode(['exito' => false, 'mensaje' => 'Selecciona un periodo válido.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    [$anio, $mes] = array_map('intval', explode('-', $coincidencias[0]));
+    $familiarEnviado = trim((string) ($_POST['familiar_id'] ?? ''));
+    $familiarId = $familiarEnviado === '' ? null : filter_var($familiarEnviado, FILTER_VALIDATE_INT);
+    if ($familiarEnviado !== '' && (!$familiarId || $familiarId < 1)) {
+        http_response_code(422);
+        echo json_encode(['exito' => false, 'mensaje' => 'El familiar seleccionado no es válido.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    $resultado = $familiarId !== null
+        ? $controlador->afiliarFamiliar((int) $_SESSION['usuario_id'], $familiarId, $anio, $mes)
+        : $controlador->afiliarTitular((int) $_SESSION['usuario_id'], $anio, $mes);
     http_response_code($resultado['exito'] ? 201 : 422);
     echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
 } catch (Throwable $error) {

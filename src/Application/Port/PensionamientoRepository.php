@@ -11,6 +11,9 @@ interface PensionamientoRepository
 
     public function familiarActivoPertenece(int $titularId, int $familiarId): bool;
 
+    /** @return list<array{id:int,nombre:string,parentesco:string}> */
+    public function familiaresActivosDelTitular(int $titularId): array;
+
     public function feriadosDelMes(int $anio, int $mes): array;
 
     /** Guarda la afiliación y sus reservas automáticas como una sola operación. */

@@ -64,6 +64,33 @@ final class AfiliarBeneficiarioTest extends TestCase
         self::assertSame('El beneficiario ya está afiliado para ese mes.', $resultado->mensaje);
     }
 
+    public function testTitularPensionadoPuedeAfiliarFamiliarActivo(): void
+    {
+        $repositorio = new RepositorioPensionamientoEnMemoria(tipoCuenta: 'PENSIONADO', familiarVinculado: true);
+        $resultado = $this->caso($repositorio)->ejecutar(42, 7, 2026, 12, 42);
+
+        self::assertTrue($resultado->exitoso);
+        self::assertSame(7, $repositorio->guardado?->familiarId);
+    }
+
+    public function testNoPensionadoNoPuedeAfiliarFamiliares(): void
+    {
+        $repositorio = new RepositorioPensionamientoEnMemoria(tipoCuenta: 'NO_PENSIONADO', familiarVinculado: true);
+        $resultado = $this->caso($repositorio)->ejecutar(42, 7, 2026, 12, 42);
+
+        self::assertFalse($resultado->exitoso);
+        self::assertNull($repositorio->guardado);
+    }
+
+    public function testFamiliarDebeEstarActivoYVinculadoAlTitular(): void
+    {
+        $repositorio = new RepositorioPensionamientoEnMemoria(tipoCuenta: 'PENSIONADO');
+        $resultado = $this->caso($repositorio)->ejecutar(42, 99, 2026, 12, 42);
+
+        self::assertFalse($resultado->exitoso);
+        self::assertNull($repositorio->guardado);
+    }
+
     private function caso(RepositorioPensionamientoEnMemoria $repositorio): AfiliarBeneficiario
     {
         return new AfiliarBeneficiario(
@@ -82,6 +109,7 @@ final class RepositorioPensionamientoEnMemoria implements PensionamientoReposito
         private readonly ?string $tipoCuenta = 'NO_PENSIONADO',
         private readonly array $feriados = [],
         private readonly bool $duplicada = false,
+        private readonly bool $familiarVinculado = false,
     ) {
     }
 
@@ -92,7 +120,12 @@ final class RepositorioPensionamientoEnMemoria implements PensionamientoReposito
 
     public function familiarActivoPertenece(int $titularId, int $familiarId): bool
     {
-        return false;
+        return $this->familiarVinculado && $titularId === 42 && $familiarId === 7;
+    }
+
+    public function familiaresActivosDelTitular(int $titularId): array
+    {
+        return $titularId === 42 && $this->tipoCuenta === 'PENSIONADO' ? [['id' => 7, 'nombre' => 'Familiar', 'parentesco' => 'HIJO']] : [];
     }
 
     public function feriadosDelMes(int $anio, int $mes): array

@@ -64,6 +64,15 @@ final readonly class AfiliarBeneficiario
         return ResultadoAfiliacion::exito($reservas);
     }
 
+    public function familiaresActivos(int $titularId): array
+    {
+        if ($this->pensionamientos->tipoCuentaTitular($titularId) !== 'PENSIONADO') {
+            return [];
+        }
+
+        return $this->pensionamientos->familiaresActivosDelTitular($titularId);
+    }
+
     private function fechasOperativas(int $anio, int $mes, array $feriados): array
     {
         $inicio = new DateTimeImmutable(sprintf('%04d-%02d-01', $anio, $mes));

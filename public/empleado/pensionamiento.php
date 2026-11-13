@@ -12,6 +12,7 @@ if (empty($_SESSION['usuario_id']) || !in_array($_SESSION['tipo_cuenta'] ?? '', 
 $ahora = new DateTimeImmutable('now', new DateTimeZone('America/La_Paz'));
 $proximoMes = $ahora->modify('first day of next month')->format('Y-m');
 $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Empleado/a'));
+$esPensionado = ($_SESSION['tipo_cuenta'] ?? '') === 'PENSIONADO';
 ?>
 <!doctype html>
 <html lang="es">
@@ -39,6 +40,12 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Empleado/a'));
             <span>Las reservas quedan registradas para todo el periodo y se aplican las reglas vigentes del restaurante.</span>
         </div>
         <form class="formulario-vinculo" id="formulario-afiliacion">
+            <?php if ($esPensionado): ?>
+                <label for="beneficiario">¿A quién deseas afiliar?</label>
+                <select id="beneficiario" name="familiar_id">
+                    <option value="">A mí</option>
+                </select>
+            <?php endif; ?>
             <label for="periodo">Mes de afiliación</label>
             <input id="periodo" name="periodo" type="month" min="<?= escaparHtml($proximoMes) ?>" value="<?= escaparHtml($proximoMes) ?>" required>
             <button class="boton-formulario" id="enviar-afiliacion" type="submit">Afiliarme y crear reservas</button>
@@ -50,6 +57,25 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Empleado/a'));
 const formulario = document.querySelector('#formulario-afiliacion');
 const mensaje = document.querySelector('#mensaje-afiliacion');
 const boton = document.querySelector('#enviar-afiliacion');
+const beneficiario = document.querySelector('#beneficiario');
+
+if (beneficiario) {
+    fetch('../api/pensionamientos.php', { headers: { 'Accept': 'application/json' } })
+        .then((respuesta) => respuesta.json())
+        .then((resultado) => {
+            if (!resultado.exito) return;
+            for (const familiar of resultado.familiares) {
+                const opcion = document.createElement('option');
+                opcion.value = familiar.id;
+                opcion.textContent = `${familiar.nombre} · ${familiar.parentesco}`;
+                beneficiario.append(opcion);
+            }
+        })
+        .catch(() => {
+            mensaje.textContent = 'No se pudieron cargar tus familiares. Puedes afiliarte a ti mismo.';
+            mensaje.classList.add('mensaje-error');
+        });
+}
 
 formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();

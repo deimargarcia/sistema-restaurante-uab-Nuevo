@@ -38,6 +38,17 @@ final readonly class PdoPensionamientoRepository implements PensionamientoReposi
         return $consulta->fetchColumn() !== false;
     }
 
+    public function familiaresActivosDelTitular(int $titularId): array
+    {
+        $consulta = $this->conexion->prepare(
+            "SELECT id, nombre, parentesco FROM familiares
+             WHERE empleado_titular_id = :titular_id AND estado = 'ACTIVO'
+             ORDER BY nombre"
+        );
+        $consulta->execute(['titular_id' => $titularId]);
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function feriadosDelMes(int $anio, int $mes): array
     {
         $inicio = sprintf('%04d-%02d-01', $anio, $mes);
