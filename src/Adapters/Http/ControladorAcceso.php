@@ -9,7 +9,7 @@ final readonly class ControladorAcceso
 {
     public function __construct(
         private IniciarSesion $iniciarSesion,
-        private string $basePath = '',
+        private string $basePublica = '',
     ) {
     }
 
@@ -32,13 +32,13 @@ final readonly class ControladorAcceso
         $_SESSION['codigo_empleado'] = $resultado->codigoEmpleado;
 
         $panel = $resultado->tipoCuenta === 'ADMIN'
-            ? '/public/admin/dashboard.php'
-            : '/public/empleado/dashboard.php';
+            ? '/admin/dashboard.php'
+            : '/empleado/dashboard.php';
 
         return [
             'exito' => true,
             'mensaje' => 'Bienvenido/a, ' . $resultado->nombreCompleto,
-            'destino' => rtrim($this->basePath, '/') . $panel,
+            'destino' => rtrim($this->basePublica, '/') . $panel,
         ];
     }
 }

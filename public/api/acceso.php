@@ -6,6 +6,8 @@ use Restaurante\Adapters\Repository\PdoUsuarioRepository;
 use Restaurante\Application\Auth\IniciarSesion;
 use Restaurante\Infrastructure\Database\Conexion;
 
+require_once __DIR__ . '/../_bootstrap.php';
+
 header('Content-Type: application/json; charset=utf-8');
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
@@ -14,16 +16,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
     exit;
 }
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-$path = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
-$publicMarker = strpos($path, '/public/');
-$basePath = $publicMarker === false ? '' : substr($path, 0, $publicMarker);
-
 try {
     $usuarios = new PdoUsuarioRepository(Conexion::crearDesdeEntorno());
     $casoDeUso = new IniciarSesion($usuarios);
-    $controlador = new ControladorAcceso($casoDeUso, $basePath);
+    $controlador = new ControladorAcceso($casoDeUso, rutaBasePublica());
 
     $respuesta = $controlador->iniciarSesion(
         (string) ($_POST['correo_o_ci'] ?? ''),
