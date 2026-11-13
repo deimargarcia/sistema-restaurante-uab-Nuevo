@@ -35,8 +35,11 @@ $tipoCuenta = escaparHtml((string) $_SESSION['tipo_cuenta']);
     <section class="panel-contenido">
         <span class="etiqueta etiqueta-verde">PORTAL DEL EMPLEADO · <?= $tipoCuenta ?></span>
         <h1>Hola, <?= $nombre ?></h1>
-        <p>Tu sesión está activa. Aquí aparecerán el menú y tus reservas.</p>
-        <div class="panel-tarjeta"><strong>Bienvenido/a al restaurante</strong><span>Las funciones de menú, pensión y reservas se incorporarán siguiendo el backlog.</span></div>
+        <p>Consulta y gestiona tus servicios del restaurante desde este espacio.</p>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/empleado/pensionamiento.php">
+            <strong>Afiliación mensual</strong>
+            <span>Solicita el pensionamiento del próximo mes y programa tus almuerzos de lunes a jueves.</span>
+        </a>
     </section>
 </main>
 </body>

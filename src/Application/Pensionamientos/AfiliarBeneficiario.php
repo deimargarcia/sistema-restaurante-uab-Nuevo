@@ -5,6 +5,7 @@ namespace Restaurante\Application\Pensionamientos;
 
 use Closure;
 use DateTimeImmutable;
+use DateTimeZone;
 use Restaurante\Application\Port\PensionamientoRepository;
 use Restaurante\Domain\Entity\Pensionamiento;
 
@@ -16,7 +17,7 @@ final readonly class AfiliarBeneficiario
         private PensionamientoRepository $pensionamientos,
         ?Closure $ahora = null,
     ) {
-        $this->ahora = $ahora ?? static fn (): DateTimeImmutable => new DateTimeImmutable('now');
+        $this->ahora = $ahora ?? static fn (): DateTimeImmutable => new DateTimeImmutable('now', new DateTimeZone('America/La_Paz'));
     }
 
     public function ejecutar(
