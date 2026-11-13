@@ -9,6 +9,7 @@ use Restaurante\Application\Reservas\CancelarReserva;
 use Restaurante\Application\Reservas\CrearReserva;
 use Restaurante\Application\Reservas\ListarReservasTitular;
 use Restaurante\Application\Reservas\ListarReservasDia;
+use Restaurante\Application\Reservas\RegistrarEntrega;
 use Restaurante\Infrastructure\Database\Conexion;
 
 iniciarSesionWeb();
@@ -34,6 +35,7 @@ try {
         new CancelarReserva($repositorio),
         new ListarReservasTitular($repositorio),
         new ListarReservasDia($repositorio),
+        new RegistrarEntrega($repositorio),
     );
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if ($tipoCuenta === 'ADMIN') {
@@ -46,6 +48,16 @@ try {
             $respuesta = $controlador->listar($titularId);
         }
         http_response_code($respuesta['exito'] ? 200 : 403);
+        echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($tipoCuenta === 'ADMIN' && ($_POST['accion'] ?? '') === 'registrar_entrega') {
+        $reservaId = filter_var($_POST['reserva_id'] ?? null, FILTER_VALIDATE_INT);
+        $respuesta = $reservaId
+            ? $controlador->registrarEntrega($reservaId)
+            : ['exito' => false, 'mensaje' => 'La reserva seleccionada no es válida.'];
+        http_response_code($respuesta['exito'] ? 200 : 422);
         echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
         exit;
     }

@@ -74,6 +74,13 @@ button, input { font: inherit; }
 .tabla-reservas { width: 100%; border-collapse: collapse; color: #344139; text-align: left; }
 .tabla-reservas th, .tabla-reservas td { padding: 12px 10px; border-bottom: 1px solid #e8ede6; white-space: nowrap; }
 .tabla-reservas th { color: #607064; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.menu-semanal-editor { display: grid; gap: 18px; margin-top: 24px; }
+.formulario-menu-dia { gap: 10px; }
+.formulario-menu-dia h2, .menu-dia h2 { margin: 0; color: #244735; font-family: 'Playfair Display', Georgia, serif; }
+.formulario-menu-dia label { margin-top: 6px; font-size: 12px; font-weight: 700; }
+.formulario-menu-dia input { min-height: 44px; padding: 0 12px; border: 1px solid #dce3dc; border-radius: 9px; }
+.menu-dia p { margin: 10px 0 0; color: #69746c; }
+.menu-imagen { width: 100%; max-height: 240px; margin-bottom: 16px; border-radius: 12px; object-fit: cover; }
 
 @media (max-width: 760px) {
     .pagina-acceso { padding: 0; background: #fff; }

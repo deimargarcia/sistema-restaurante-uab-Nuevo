@@ -24,4 +24,5 @@ interface ReservaRepository
     public function listarPorTitular(int $titularId): array;
     /** @return list<array<string,mixed>> */
     public function listarPorFecha(string $fecha): array;
+    public function marcarEntregada(int $reservaId, string $fecha): bool;
 }

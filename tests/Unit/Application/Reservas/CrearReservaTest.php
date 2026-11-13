@@ -86,4 +86,5 @@ final class ReservaEnMemoria implements ReservaRepository
     public function actualizarEstadosAutomaticos(string $hoy, string $hora, string $horaLimite): void {}
     public function listarPorTitular(int $titularId): array { return []; }
     public function listarPorFecha(string $fecha): array { return []; }
+    public function marcarEntregada(int $reservaId, string $fecha): bool { return false; }
 }

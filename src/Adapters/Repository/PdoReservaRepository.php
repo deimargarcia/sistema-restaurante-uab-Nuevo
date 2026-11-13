@@ -179,4 +179,14 @@ final readonly class PdoReservaRepository implements ReservaRepository
         $consulta->execute(['fecha' => $fecha]);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function marcarEntregada(int $reservaId, string $fecha): bool
+    {
+        $consulta = $this->conexion->prepare(
+            "UPDATE reservas SET estado='ENTREGADO'
+             WHERE id=:id AND fecha_reserva=:fecha AND estado='PENDIENTE_ENTREGA'"
+        );
+        $consulta->execute(['id' => $reservaId, 'fecha' => $fecha]);
+        return $consulta->rowCount() === 1;
+    }
 }

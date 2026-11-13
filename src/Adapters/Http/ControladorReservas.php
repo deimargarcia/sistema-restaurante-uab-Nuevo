@@ -7,6 +7,7 @@ use Restaurante\Application\Reservas\CancelarReserva;
 use Restaurante\Application\Reservas\CrearReserva;
 use Restaurante\Application\Reservas\ListarReservasTitular;
 use Restaurante\Application\Reservas\ListarReservasDia;
+use Restaurante\Application\Reservas\RegistrarEntrega;
 
 final readonly class ControladorReservas
 {
@@ -15,6 +16,7 @@ final readonly class ControladorReservas
         private CancelarReserva $cancelarReserva,
         private ListarReservasTitular $listarReservas,
         private ListarReservasDia $listarDia,
+        private RegistrarEntrega $registrarEntrega,
     ) {
     }
 
@@ -55,6 +57,15 @@ final readonly class ControladorReservas
             return ['exito' => false, 'mensaje' => 'Solo administración puede consultar el consolidado diario.'];
         }
         return ['exito' => true, 'reservas' => $this->listarDia->ejecutar($fecha)];
+    }
+
+    public function registrarEntrega(int $reservaId): array
+    {
+        if (($_SESSION['tipo_cuenta'] ?? '') !== 'ADMIN') {
+            return ['exito' => false, 'mensaje' => 'Solo administración puede registrar entregas.'];
+        }
+        $resultado = $this->registrarEntrega->ejecutar($reservaId);
+        return ['exito' => $resultado->exitoso, 'mensaje' => $resultado->mensaje];
     }
 
     private function empleadoPuedeReservar(): bool

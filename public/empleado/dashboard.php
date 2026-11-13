@@ -44,6 +44,10 @@ $tipoCuenta = escaparHtml((string) $_SESSION['tipo_cuenta']);
             <strong>Reservar un almuerzo</strong>
             <span>Haz reservas esporádicas para ti o para un familiar afiliado y revisa tus reservas activas.</span>
         </a>
+        <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/empleado/menu.php">
+            <strong>Menú de la semana</strong>
+            <span>Revisa la sopa, el plato principal y el postre de cada día.</span>
+        </a>
     </section>
 </main>
 </body>

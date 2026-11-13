@@ -11,6 +11,7 @@ use Restaurante\Application\Reservas\CancelarReserva;
 use Restaurante\Application\Reservas\CrearReserva;
 use Restaurante\Application\Reservas\ListarReservasDia;
 use Restaurante\Application\Reservas\ListarReservasTitular;
+use Restaurante\Application\Reservas\RegistrarEntrega;
 use Restaurante\Domain\Entity\Reserva;
 
 final class ControladorReservasTest extends TestCase
@@ -41,7 +42,7 @@ final class ControladorReservasTest extends TestCase
     private function controlador(ReservaControladorEnMemoria $repo): ControladorReservas
     {
         $reloj = static fn (): DateTimeImmutable => new DateTimeImmutable('2026-11-12 08:30:00');
-        return new ControladorReservas(new CrearReserva($repo, $reloj), new CancelarReserva($repo, $reloj), new ListarReservasTitular($repo, $reloj), new ListarReservasDia($repo, $reloj));
+        return new ControladorReservas(new CrearReserva($repo, $reloj), new CancelarReserva($repo, $reloj), new ListarReservasTitular($repo, $reloj), new ListarReservasDia($repo, $reloj), new RegistrarEntrega($repo, $reloj));
     }
 }
 
@@ -62,4 +63,5 @@ final class ReservaControladorEnMemoria implements ReservaRepository
     public function actualizarEstadosAutomaticos(string $hoy, string $hora, string $horaLimite): void {}
     public function listarPorTitular(int $titularId): array { return []; }
     public function listarPorFecha(string $fecha): array { return []; }
+    public function marcarEntregada(int $reservaId, string $fecha): bool { return false; }
 }
