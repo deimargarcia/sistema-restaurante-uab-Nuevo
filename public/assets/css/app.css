@@ -65,6 +65,10 @@ button, input { font: inherit; }
 .campo-formulario input:focus, .campo-formulario select:focus { border-color: #578164; box-shadow: 0 0 0 3px #5781641f; }
 .boton-formulario { min-height: 46px; align-self: end; padding: 0 16px; border: 0; border-radius: 9px; color: #fff; background: #1c4935; font-weight: 700; cursor: pointer; }
 .boton-formulario:disabled { opacity: .6; cursor: wait; }
+.formulario-vinculo { display: grid; gap: 10px; margin-top: 26px; }
+.formulario-vinculo label { margin-top: 10px; font-size: 12px; font-weight: 700; }
+.formulario-vinculo input, .formulario-vinculo select { width: 100%; min-height: 46px; padding: 0 12px; border: 1px solid #dce3dc; border-radius: 9px; outline: none; background: #fbfcfa; }
+.formulario-vinculo input:focus, .formulario-vinculo select:focus { border-color: #578164; box-shadow: 0 0 0 3px #5781641f; }
 .mensaje-exito { display: block; color: #2c633e; background: #edf8ed; }
 
 @media (max-width: 760px) {

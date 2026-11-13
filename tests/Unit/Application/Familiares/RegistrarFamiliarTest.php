@@ -73,6 +73,11 @@ final class RepositorioFamiliarEnMemoria implements FamiliarRepository
         return $this->titularExiste && $titularId === 42;
     }
 
+    public function listarTitulares(): array
+    {
+        return [];
+    }
+
     public function crear(Familiar $familiar): int
     {
         $this->guardado = $familiar;
