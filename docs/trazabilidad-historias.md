@@ -40,8 +40,8 @@ Esta lista indica qué criterios ya tienen una prueba automatizada y cuáles fal
 |---|---|
 | 4. Afiliación mensual del titular | `AfiliarBeneficiarioTest::testAfiliacionDelTitularCreaReservasDelMesFuturo`, `testProgramaSoloLunesAJuevesYOmiteFeriados`, `testNoPermiteAfiliarAlMesActualNiAUnMesPasado` y `testNoDuplicaUnaAfiliacionDelMismoBeneficiario`. |
 | 5. Pensión y reservas para familiares | `AfiliarBeneficiarioTest::testTitularPensionadoPuedeAfiliarFamiliar`, `testNoPensionadoNoPuedeAfiliarFamiliares` y `testFamiliarDebeEstarActivoYVinculadoAlTitular`; el administrador también puede asistir con `ControladorPensionamientosTest`. |
-| 6. Reservas esporádicas y horario límite | Pendiente de migrar el caso de uso y sus pruebas. |
-| 7. Cancelaciones e inasistencias | Pendiente de migrar el caso de uso y sus pruebas. |
+| 6. Reservas esporádicas y horario límite | `CrearReservaTest` valida fecha operativa, feriados, hora límite, menú publicado, titular/familiar autorizado, duplicados, modalidad y tarifa. `ControladorReservasTest` limita la creación a empleados. |
+| 7. Cancelaciones e inasistencias | `CancelarReservaTest` valida propiedad, estado, hora límite y mínimo mensual; `ListarReservasTitular` y `ListarReservasDia` actualizan estados para separar reservas pendientes de entrega de inasistencias cobradas. El administrador tiene consulta diaria. |
 | 8. Publicación y consulta del menú | Pendiente de migrar el caso de uso y sus pruebas. |
 | 9. Reportes y descuento por planilla | Pendiente de migrar el caso de uso y sus pruebas. |
 | 10. Configuración y calendario | Pendiente de migrar el caso de uso y sus pruebas. |

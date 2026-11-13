@@ -30,7 +30,7 @@ flowchart TD
 
 ## Lo que ya está trasladado
 
-El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. Desde su panel, administración puede dar de alta empleados, vincular familiares y asistir con las afiliaciones mensuales. Los empleados pueden solicitar su afiliación para el siguiente periodo; se programan almuerzos de lunes a jueves y se omiten feriados registrados. El titular pensionado también puede afiliar a sus familiares activos. Se validan los datos obligatorios, la unicidad de correo, CI y código, y los parentescos permitidos. Las contraseñas se guardan como hash.
+El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. Desde su panel, administración puede dar de alta empleados, vincular familiares, asistir con las afiliaciones mensuales y consultar las reservas del día. Los empleados pueden solicitar su afiliación para el siguiente periodo; se programan almuerzos de lunes a jueves y se omiten feriados registrados. También pueden hacer reservas esporádicas para sí mismos o para familiares activos, siempre que exista un menú publicado. La cancelación respeta el horario límite y el mínimo mensual; las reservas no atendidas pasan a inasistencia cobrada, mientras que las entregadas tienen su propio estado. Se validan los datos obligatorios, la unicidad de correo, CI y código, y los parentescos permitidos. Las contraseñas se guardan como hash.
 
 La relación entre las historias, sus criterios y las pruebas que ya existen está en [`docs/trazabilidad-historias.md`](docs/trazabilidad-historias.md).
 
