@@ -128,6 +128,11 @@ final class RepositorioPensionamientoEnMemoria implements PensionamientoReposito
         return $titularId === 42 && $this->tipoCuenta === 'PENSIONADO' ? [['id' => 7, 'nombre' => 'Familiar', 'parentesco' => 'HIJO']] : [];
     }
 
+    public function titularesPensionados(): array
+    {
+        return [];
+    }
+
     public function feriadosDelMes(int $anio, int $mes): array
     {
         return $this->feriados;

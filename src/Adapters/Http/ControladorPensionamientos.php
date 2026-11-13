@@ -11,19 +11,19 @@ final readonly class ControladorPensionamientos
     {
     }
 
-    public function afiliarTitular(int $usuarioId, int $anio, int $mes): array
+    public function afiliarTitular(int $usuarioId, int $anio, int $mes, ?int $registradoPorId = null): array
     {
-        if (!in_array($_SESSION['tipo_cuenta'] ?? '', ['PENSIONADO', 'NO_PENSIONADO'], true)) {
-            return ['exito' => false, 'mensaje' => 'Solo un empleado puede solicitar su afiliación mensual.'];
+        if (!in_array($_SESSION['tipo_cuenta'] ?? '', ['PENSIONADO', 'NO_PENSIONADO', 'ADMIN'], true)) {
+            return ['exito' => false, 'mensaje' => 'No tienes permisos para registrar la afiliación.'];
         }
 
-        return $this->afiliar($usuarioId, null, $anio, $mes, $usuarioId);
+        return $this->afiliar($usuarioId, null, $anio, $mes, $registradoPorId ?? $usuarioId);
     }
 
     public function listarFamiliares(int $titularId): array
     {
-        if (($_SESSION['tipo_cuenta'] ?? '') !== 'PENSIONADO') {
-            return ['exito' => false, 'mensaje' => 'Solo el titular pensionado puede gestionar a sus familiares.'];
+        if (!in_array($_SESSION['tipo_cuenta'] ?? '', ['PENSIONADO', 'ADMIN'], true)) {
+            return ['exito' => false, 'mensaje' => 'No tienes permisos para consultar familiares.'];
         }
 
         return [
@@ -32,13 +32,22 @@ final readonly class ControladorPensionamientos
         ];
     }
 
-    public function afiliarFamiliar(int $titularId, int $familiarId, int $anio, int $mes): array
+    public function afiliarFamiliar(int $titularId, int $familiarId, int $anio, int $mes, ?int $registradoPorId = null): array
     {
-        if (($_SESSION['tipo_cuenta'] ?? '') !== 'PENSIONADO') {
-            return ['exito' => false, 'mensaje' => 'Solo un titular pensionado puede afiliar familiares.'];
+        if (!in_array($_SESSION['tipo_cuenta'] ?? '', ['PENSIONADO', 'ADMIN'], true)) {
+            return ['exito' => false, 'mensaje' => 'No tienes permisos para afiliar familiares.'];
         }
 
-        return $this->afiliar($titularId, $familiarId, $anio, $mes, $titularId);
+        return $this->afiliar($titularId, $familiarId, $anio, $mes, $registradoPorId ?? $titularId);
+    }
+
+    public function listarTitularesPensionados(): array
+    {
+        if (($_SESSION['tipo_cuenta'] ?? '') !== 'ADMIN') {
+            return ['exito' => false, 'mensaje' => 'Solo administración puede consultar los titulares.'];
+        }
+
+        return ['exito' => true, 'titulares' => $this->afiliarBeneficiario->titularesPensionados()];
     }
 
     private function afiliar(int $usuarioId, ?int $familiarId, int $anio, int $mes, int $registradoPorId): array

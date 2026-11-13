@@ -14,6 +14,9 @@ interface PensionamientoRepository
     /** @return list<array{id:int,nombre:string,parentesco:string}> */
     public function familiaresActivosDelTitular(int $titularId): array;
 
+    /** @return list<array{id:int,nombre_completo:string,codigo_empleado:?string}> */
+    public function titularesPensionados(): array;
+
     public function feriadosDelMes(int $anio, int $mes): array;
 
     /** Guarda la afiliación y sus reservas automáticas como una sola operación. */

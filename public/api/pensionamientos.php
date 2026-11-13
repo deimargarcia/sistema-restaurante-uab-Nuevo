@@ -17,9 +17,9 @@ if (!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'], true)) {
     exit;
 }
 
-if (empty($_SESSION['usuario_id']) || !in_array($_SESSION['tipo_cuenta'] ?? '', ['PENSIONADO', 'NO_PENSIONADO'], true)) {
+if (empty($_SESSION['usuario_id']) || !in_array($_SESSION['tipo_cuenta'] ?? '', ['ADMIN', 'PENSIONADO', 'NO_PENSIONADO'], true)) {
     http_response_code(403);
-    echo json_encode(['exito' => false, 'mensaje' => 'Inicia sesión como empleado para continuar.']);
+    echo json_encode(['exito' => false, 'mensaje' => 'Inicia sesión con una cuenta habilitada para continuar.'], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -30,7 +30,16 @@ try {
     );
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $resultado = $controlador->listarFamiliares((int) $_SESSION['usuario_id']);
+        if (($_SESSION['tipo_cuenta'] ?? '') === 'ADMIN' && empty($_GET['titular_id'])) {
+            $resultado = $controlador->listarTitularesPensionados();
+        } else {
+            $titularId = ($_SESSION['tipo_cuenta'] ?? '') === 'ADMIN'
+                ? filter_var($_GET['titular_id'] ?? null, FILTER_VALIDATE_INT)
+                : (int) $_SESSION['usuario_id'];
+            $resultado = $titularId
+                ? $controlador->listarFamiliares($titularId)
+                : ['exito' => false, 'mensaje' => 'El titular seleccionado no es válido.'];
+        }
         http_response_code($resultado['exito'] ? 200 : 403);
         echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
         exit;
@@ -42,6 +51,15 @@ try {
         exit;
     }
     [$anio, $mes] = array_map('intval', explode('-', $coincidencias[0]));
+    $tipoSesion = $_SESSION['tipo_cuenta'] ?? '';
+    $titularId = $tipoSesion === 'ADMIN'
+        ? filter_var($_POST['titular_id'] ?? null, FILTER_VALIDATE_INT)
+        : (int) $_SESSION['usuario_id'];
+    if (!$titularId || $titularId < 1) {
+        http_response_code(422);
+        echo json_encode(['exito' => false, 'mensaje' => 'Selecciona un titular válido.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
     $familiarEnviado = trim((string) ($_POST['familiar_id'] ?? ''));
     $familiarId = $familiarEnviado === '' ? null : filter_var($familiarEnviado, FILTER_VALIDATE_INT);
     if ($familiarEnviado !== '' && (!$familiarId || $familiarId < 1)) {
@@ -50,8 +68,8 @@ try {
         exit;
     }
     $resultado = $familiarId !== null
-        ? $controlador->afiliarFamiliar((int) $_SESSION['usuario_id'], $familiarId, $anio, $mes)
-        : $controlador->afiliarTitular((int) $_SESSION['usuario_id'], $anio, $mes);
+        ? $controlador->afiliarFamiliar($titularId, $familiarId, $anio, $mes, (int) $_SESSION['usuario_id'])
+        : $controlador->afiliarTitular($titularId, $anio, $mes, (int) $_SESSION['usuario_id']);
     http_response_code($resultado['exito'] ? 201 : 422);
     echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
 } catch (Throwable $error) {

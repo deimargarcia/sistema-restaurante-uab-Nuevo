@@ -49,6 +49,16 @@ final readonly class PdoPensionamientoRepository implements PensionamientoReposi
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function titularesPensionados(): array
+    {
+        return $this->conexion->query(
+            "SELECT id, CONCAT_WS(' ', NULLIF(nombre, ''), NULLIF(apellido, '')) AS nombre_completo,
+                    codigo_empleado
+             FROM usuarios WHERE tipo_cuenta = 'PENSIONADO' AND activo = 1
+             ORDER BY apellido, nombre"
+        )->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function feriadosDelMes(int $anio, int $mes): array
     {
         $inicio = sprintf('%04d-%02d-01', $anio, $mes);

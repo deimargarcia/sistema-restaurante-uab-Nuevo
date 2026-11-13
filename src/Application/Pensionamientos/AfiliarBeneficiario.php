@@ -73,6 +73,11 @@ final readonly class AfiliarBeneficiario
         return $this->pensionamientos->familiaresActivosDelTitular($titularId);
     }
 
+    public function titularesPensionados(): array
+    {
+        return $this->pensionamientos->titularesPensionados();
+    }
+
     private function fechasOperativas(int $anio, int $mes, array $feriados): array
     {
         $inicio = new DateTimeImmutable(sprintf('%04d-%02d-01', $anio, $mes));
