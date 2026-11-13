@@ -13,11 +13,21 @@ Esta lista indica qué criterios ya tienen una prueba automatizada y cuáles fal
 | Los campos vacíos se rechazan antes de buscar al usuario. | `IniciarSesionTest::testCamposVaciosSeRechazanAntesDeConsultar` |
 | El administrador y el empleado llegan a paneles distintos; una credencial rechazada no crea sesión. | `ControladorAccesoTest` |
 
+## Historia 2: Alta y administración de empleados
+
+| Criterio | Prueba |
+|---|---|
+| Un registro válido guarda los datos normalizados y la contraseña como hash. | `RegistrarEmpleadoTest::testRegistraEmpleadoNormalizandoDatosYGuardandoHash` |
+| Los campos requeridos se validan antes de guardar. | `RegistrarEmpleadoTest::testPideLosCamposObligatoriosQueFaltan` |
+| Un correo repetido se rechaza. | `RegistrarEmpleadoTest::testRechazaCorreoDuplicado` |
+| Un CI repetido se rechaza. | `RegistrarEmpleadoTest::testRechazaCiDuplicado` |
+| Un código repetido y un tipo de cuenta inválido se rechazan. | `RegistrarEmpleadoTest::testRechazaCodigoDeEmpleadoDuplicado` y `testRechazaDatosConFormatoOTipoDeCuentaNoPermitido` |
+| Solo administración puede enviar el alta y guardar el empleado. | `ControladorEmpleadosTest` |
+
 ## Historias pendientes
 
 | Historia | Cobertura actual |
 |---|---|
-| 2. Alta y administración de empleados | Pendiente de migrar el caso de uso y sus pruebas. |
 | 3. Vinculación de familiares directos | Pendiente de migrar el caso de uso y sus pruebas. |
 | 4. Afiliación mensual del titular | Pendiente de migrar el caso de uso y sus pruebas. |
 | 5. Pensión y reservas para familiares | Pendiente de migrar el caso de uso y sus pruebas. |

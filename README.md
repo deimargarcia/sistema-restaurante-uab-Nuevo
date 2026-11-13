@@ -30,7 +30,7 @@ flowchart TD
 
 ## Lo que ya está trasladado
 
-El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. El repositorio PDO consulta los datos en MySQL. La pantalla lleva al usuario al panel que corresponde a su rol; los módulos de administración y empleado se agregarán conforme avancemos con el backlog.
+El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. Administración también puede dar de alta empleados desde su panel; se validan los campos obligatorios y que correo, CI y código no estén repetidos. Las contraseñas se guardan como hash.
 
 La relación entre las historias, sus criterios y las pruebas que ya existen está en [`docs/trazabilidad-historias.md`](docs/trazabilidad-historias.md).
 
