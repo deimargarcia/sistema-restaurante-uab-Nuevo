@@ -32,10 +32,14 @@ $tipoCuenta = escaparHtml((string) $_SESSION['tipo_cuenta']);
             <button class="boton-secundario" type="submit">Cerrar sesión</button>
         </form>
     </header>
-    <section class="panel-contenido">
-        <span class="etiqueta etiqueta-verde">PORTAL DEL EMPLEADO · <?= $tipoCuenta ?></span>
-        <h1>Hola, <?= $nombre ?></h1>
-        <p>Consulta y gestiona tus servicios del restaurante desde este espacio.</p>
+    <section class="panel-contenido dashboard-contenido">
+        <div class="dashboard-bienvenida">
+            <span class="etiqueta">PORTAL DEL EMPLEADO · <?= $tipoCuenta ?></span>
+            <h1>Hola, <?= $nombre ?></h1>
+            <p>Tu espacio para organizar tus almuerzos y consultar el servicio.</p>
+        </div>
+        <h2 class="dashboard-seccion-titulo">¿Qué deseas hacer hoy?</h2>
+        <div class="dashboard-acciones">
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/empleado/pensionamiento.php">
             <strong>Afiliación mensual</strong>
             <span>Solicita el pensionamiento del próximo mes y programa tus almuerzos de lunes a jueves.</span>
@@ -48,6 +52,7 @@ $tipoCuenta = escaparHtml((string) $_SESSION['tipo_cuenta']);
             <strong>Menú de la semana</strong>
             <span>Revisa la sopa, el plato principal y el postre de cada día.</span>
         </a>
+        </div>
     </section>
 </main>
 </body>

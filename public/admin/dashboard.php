@@ -30,10 +30,14 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Administración'));
             <button class="boton-secundario" type="submit">Cerrar sesión</button>
         </form>
     </header>
-    <section class="panel-contenido">
-        <span class="etiqueta etiqueta-verde">PANEL DE ADMINISTRACIÓN</span>
-        <h1>Hola, <?= $nombre ?></h1>
-        <p>La sesión está activa con permisos de administración.</p>
+    <section class="panel-contenido dashboard-contenido">
+        <div class="dashboard-bienvenida">
+            <span class="etiqueta">PANEL DE ADMINISTRACIÓN</span>
+            <h1>Hola, <?= $nombre ?></h1>
+            <p>Administra los servicios del restaurante desde un solo lugar.</p>
+        </div>
+        <h2 class="dashboard-seccion-titulo">Operaciones del restaurante</h2>
+        <div class="dashboard-acciones">
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/empleados.php"><strong>Registrar empleado</strong><span>Agregar a una persona de la nómina y crear su cuenta.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/familiares.php"><strong>Vincular familiar</strong><span>Asociar padres, cónyuge o hijos a un empleado titular.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/pensionamientos.php"><strong>Gestionar afiliaciones</strong><span>Asistir a titulares pensionados con su afiliación mensual y reservas.</span></a>
@@ -42,6 +46,7 @@ $nombre = escaparHtml((string) ($_SESSION['nombre'] ?? 'Administración'));
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/cocina.php"><strong>Consolidado de cocina</strong><span>Consultar el total del día y registrar los almuerzos entregados.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/reportes.php"><strong>Reporte de planilla</strong><span>Generar y revisar los descuentos mensuales por titular y familiares.</span></a>
         <a class="panel-tarjeta panel-tarjeta-enlace" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/configuracion.php"><strong>Parámetros y calendario</strong><span>Ajustar tarifas, mínimo mensual, horario límite y feriados.</span></a>
+        </div>
     </section>
 </main>
 </body>

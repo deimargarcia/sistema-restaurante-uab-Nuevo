@@ -19,7 +19,7 @@ if (!empty($_SESSION['usuario_id'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#15392c">
+    <meta name="theme-color" content="#123b68">
     <title>Ingresar | Restaurante Rumbo al Cielo</title>
     <link rel="stylesheet" href="<?= escaparHtml($base) ?>/assets/css/app.css">
 </head>
