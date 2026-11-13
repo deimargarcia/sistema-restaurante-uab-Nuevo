@@ -1,43 +1,48 @@
-# Restaurante Rumbo al Cielo — proyecto reorganizado
+# Sistema de reservas del restaurante Rumbo al Cielo
 
-Este repositorio nuevo trasladará el sistema PHP existente de forma incremental. El proyecto original se conserva sin modificaciones como referencia durante la migración.
+Este repositorio contiene la nueva versión del sistema de almuerzos de la Universidad Adventista de Bolivia. Vamos trasladando las funciones desde el proyecto anterior por partes, para poder revisar y probar cada regla antes de seguir con la siguiente.
 
-## Arquitectura
+## Cómo está organizado
+
+El sistema separa las reglas del restaurante de la web y de MySQL. Así, los casos de uso se pueden probar sin levantar el servidor ni conectarse a la base.
 
 ```mermaid
-flowchart TB
-    Web[Adaptadores: controladores] --> App[Aplicación: casos de uso]
-    App --> Port[Aplicación: puertos / contratos]
-    App --> Domain[Dominio: entidades y reglas]
-    Repo[Adaptadores: repositorios concretos] -. implementa .-> Port
-    Repo --> Infra[Infraestructura: PDO / MySQL]
-    Tests[Pruebas unitarias] --> App
-    Tests --> Domain
+flowchart TD
+    Web[Controladores y páginas] --> Caso[Caso de uso]
+    Caso --> Regla[Dominio: entidades y reglas]
+    Caso --> Puerto[Contrato de repositorio]
+    Repositorio[Repositorio PDO] -. cumple .-> Puerto
+    Repositorio --> Conexion[Conexión PDO]
+    Conexion --> Base[(MySQL o MariaDB)]
+    Pruebas[Pruebas unitarias] --> Caso
 ```
 
-Las dependencias de los casos de uso apuntan al dominio. La aplicación trabaja con contratos; infraestructura los implementa con PDO. El framework, la base de datos y las páginas no forman parte del dominio.
-
-## Carpetas
-
-| Carpeta | Responsabilidad |
+| Carpeta | Qué contiene |
 |---|---|
-| `src/Domain/Entity` | Entidades y reglas centrales del negocio. |
-| `src/Domain` | Entidades y reglas centrales del negocio, sin dependencias externas. |
-| `src/Application` | Casos de uso, resultados y puertos/contratos requeridos por los casos de uso. |
-| `src/Adapters/Controller` | Controladores HTTP que traducen solicitudes y respuestas. |
-| `src/Adapters/Repository` | Repositorios concretos que implementan los puertos de aplicación. |
-| `src/Infrastructure` | Conexión PDO, configuración y servicios propios del framework/entorno. |
-| `tests/Unit` | Pruebas de casos de uso usando dobles en memoria. |
-| `database` | Esquema y migraciones SQL. |
-| `reports` | Reportes generados por la ejecución de las pruebas. |
+| `src/Domain` | Entidades y reglas propias del restaurante. |
+| `src/Application` | Casos de uso y contratos que estos necesitan. |
+| `src/Adapters/Http` | Controladores que reciben solicitudes de la web. |
+| `src/Adapters/Repository` | Consultas y escrituras que adaptan los casos de uso a la base. |
+| `src/Infrastructure` | Conexión PDO y configuración del entorno. |
+| `database` | Esquema SQL para crear las tablas. |
+| `tests/Unit` | Pruebas que ejecutan los casos de uso con datos en memoria. |
+| `reports` | Reporte PHPUnit generado al correr las pruebas. |
 
-## Primer módulo trasladado
+## Lo que ya está trasladado
 
-El caso de uso `IniciarSesion` es la primera rebanada migrada: depende del puerto `UsuarioRepository` de Aplicación; el repositorio PDO queda en Adaptadores, la conexión PDO en Infraestructura y la prueba usa un repositorio en memoria. El siguiente paso será agregar el controlador HTTP y la pantalla de acceso, conservando la misma separación.
+El primer caso de uso es el inicio de sesión. Acepta correo o CI, verifica la contraseña guardada como hash y rechaza cuentas inactivas. El repositorio PDO busca los datos en MySQL; las pruebas unitarias usan un repositorio en memoria.
 
-## Ejecutar pruebas
+Todavía falta conectar este caso de uso con el controlador web y la pantalla de acceso. Después continuaremos con el registro de empleados y las demás historias del backlog.
 
-Requiere PHP 8.2 y Composer.
+## Base de datos local
+
+`database/schema.sql` crea la base `restaurante_rumbo_al_cielo_nuevo` y las tablas que necesita el sistema. La base local ya creada contiene la estructura inicial, sin copiar los registros personales del proyecto anterior.
+
+Para configurar otra instalación, sigue los pasos de [`database/README.md`](database/README.md). El comando `php scripts/check-database.php` confirma la conexión y muestra cuántas tablas encuentra.
+
+## Pruebas
+
+Se necesita PHP 8.2 y Composer. Desde la carpeta del proyecto, ejecuta:
 
 ```bash
 composer install
@@ -45,16 +50,4 @@ composer test
 composer test:report
 ```
 
-El último comando crea `reports/phpunit.xml` en la ejecución local; se conserva como evidencia de entrega según las reglas del curso.
-
-## Base de datos
-
-El esquema para crear la base está en [`database/schema.sql`](database/schema.sql).
-Los pasos de importación y configuración de credenciales están en
-[`database/README.md`](database/README.md). Después de importar el esquema,
-`php scripts/check-database.php` comprueba la conexión y muestra cuántas tablas
-encuentra sin imprimir credenciales.
-
-## Migración
-
-Se migrará módulo por módulo desde el repositorio anterior. Cada incremento incluirá comportamiento, pruebas unitarias para criterios de aceptación y documentación actualizada. Las historias de usuario y sus criterios se vincularán con pruebas en una matriz de trazabilidad que se completará al incorporar el backlog fuente.
+La prueba unitaria del inicio de sesión cubre correo, CI, contraseña incorrecta, cuenta inactiva y campos vacíos. El reporte se guarda en `reports/phpunit.xml`.
