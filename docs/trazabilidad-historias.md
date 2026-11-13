@@ -34,12 +34,12 @@ Esta lista indica qué criterios ya tienen una prueba automatizada y cuáles fal
 | El titular seleccionado debe ser un empleado existente. | `RegistrarFamiliarTest::testExigeUnEmpleadoTitularExistente` |
 | Solo administración puede consultar titulares y enviar el registro. | `ControladorFamiliaresTest` |
 
-## Historias pendientes
+## Historias en desarrollo
 
 | Historia | Cobertura actual |
 |---|---|
-| 4. Afiliación mensual del titular | Pendiente de migrar el caso de uso y sus pruebas. |
-| 5. Pensión y reservas para familiares | Pendiente de migrar el caso de uso y sus pruebas. |
+| 4. Afiliación mensual del titular | `AfiliarBeneficiarioTest::testAfiliacionDelTitularCreaReservasDelMesFuturo`, `testProgramaSoloLunesAJuevesYOmiteFeriados`, `testNoPermiteAfiliarAlMesActualNiAUnMesPasado` y `testNoDuplicaUnaAfiliacionDelMismoBeneficiario`. |
+| 5. Pensión y reservas para familiares | `AfiliarBeneficiarioTest::testTitularPensionadoPuedeAfiliarFamiliar`, `testNoPensionadoNoPuedeAfiliarFamiliares` y `testFamiliarDebeEstarActivoYVinculadoAlTitular`; el administrador también puede asistir con `ControladorPensionamientosTest`. |
 | 6. Reservas esporádicas y horario límite | Pendiente de migrar el caso de uso y sus pruebas. |
 | 7. Cancelaciones e inasistencias | Pendiente de migrar el caso de uso y sus pruebas. |
 | 8. Publicación y consulta del menú | Pendiente de migrar el caso de uso y sus pruebas. |
