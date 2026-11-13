@@ -24,11 +24,20 @@ Esta lista indica qué criterios ya tienen una prueba automatizada y cuáles fal
 | Un código repetido y un tipo de cuenta inválido se rechazan. | `RegistrarEmpleadoTest::testRechazaCodigoDeEmpleadoDuplicado` y `testRechazaDatosConFormatoOTipoDeCuentaNoPermitido` |
 | Solo administración puede enviar el alta y guardar el empleado. | `ControladorEmpleadosTest` |
 
+## Historia 3: Vinculación de familiares directos
+
+| Criterio | Prueba |
+|---|---|
+| El familiar queda vinculado al titular que seleccionó administración. | `RegistrarFamiliarTest::testVinculaFamiliarAlTitularSeleccionado` |
+| Se aceptan padres, cónyuge e hijos. | `RegistrarFamiliarTest::testAceptaPadresConyugeEHijos` |
+| Se rechaza un parentesco fuera del primer grado. | `RegistrarFamiliarTest::testRechazaUnParentescoFueraDelPrimerGrado` |
+| El titular seleccionado debe ser un empleado existente. | `RegistrarFamiliarTest::testExigeUnEmpleadoTitularExistente` |
+| Solo administración puede consultar titulares y enviar el registro. | `ControladorFamiliaresTest` |
+
 ## Historias pendientes
 
 | Historia | Cobertura actual |
 |---|---|
-| 3. Vinculación de familiares directos | Pendiente de migrar el caso de uso y sus pruebas. |
 | 4. Afiliación mensual del titular | Pendiente de migrar el caso de uso y sus pruebas. |
 | 5. Pensión y reservas para familiares | Pendiente de migrar el caso de uso y sus pruebas. |
 | 6. Reservas esporádicas y horario límite | Pendiente de migrar el caso de uso y sus pruebas. |

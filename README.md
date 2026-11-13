@@ -30,7 +30,7 @@ flowchart TD
 
 ## Lo que ya está trasladado
 
-El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. Administración también puede dar de alta empleados desde su panel; se validan los campos obligatorios y que correo, CI y código no estén repetidos. Las contraseñas se guardan como hash.
+El acceso acepta correo o CI, valida la contraseña guardada como hash y rechaza cuentas inactivas. Desde su panel, administración puede dar de alta empleados y vincular familiares al titular elegido. Se validan los datos obligatorios, la unicidad de correo, CI y código, y los parentescos permitidos. Las contraseñas se guardan como hash.
 
 La relación entre las historias, sus criterios y las pruebas que ya existen está en [`docs/trazabilidad-historias.md`](docs/trazabilidad-historias.md).
 
