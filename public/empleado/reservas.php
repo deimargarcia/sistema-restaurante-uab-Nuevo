@@ -10,6 +10,11 @@ if (empty($_SESSION['usuario_id']) || !in_array($_SESSION['tipo_cuenta'] ?? '', 
 }
 
 $hoy = (new DateTimeImmutable('now', new DateTimeZone('America/La_Paz')))->format('Y-m-d');
+$fechaSolicitud = (string) ($_GET['fecha'] ?? '');
+$fechaSeleccionada = DateTimeImmutable::createFromFormat('!Y-m-d', $fechaSolicitud);
+$fechaSeleccionada = $fechaSeleccionada && $fechaSeleccionada->format('Y-m-d') === $fechaSolicitud && $fechaSolicitud >= $hoy
+    ? $fechaSolicitud
+    : '';
 $esPensionado = ($_SESSION['tipo_cuenta'] ?? '') === 'PENSIONADO';
 ?>
 <!doctype html>
@@ -42,7 +47,7 @@ $esPensionado = ($_SESSION['tipo_cuenta'] ?? '') === 'PENSIONADO';
             <?php endif; ?>
             <div class="campo-formulario">
                 <label for="fecha">Fecha del almuerzo</label>
-                <input id="fecha" name="fecha" type="date" min="<?= escaparHtml($hoy) ?>" required>
+                <input id="fecha" name="fecha" type="date" min="<?= escaparHtml($hoy) ?>" value="<?= escaparHtml($fechaSeleccionada) ?>" required>
             </div>
             <button class="boton-formulario" id="enviar-reserva" type="submit">Confirmar reserva</button>
         </form>

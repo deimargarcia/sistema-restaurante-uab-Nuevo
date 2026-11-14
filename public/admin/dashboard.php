@@ -30,7 +30,7 @@ $gruposNavegacion = [
     ]],
     ['titulo' => 'CONTROL', 'enlaces' => [
         ['texto' => 'Reportes', 'ruta' => '/admin/reportes.php', 'icono' => 'reporte'],
-        ['texto' => 'Parámetros', 'ruta' => '/admin/configuracion.php', 'icono' => 'configuracion'],
+        ['texto' => 'Horario y feriados', 'ruta' => '/admin/configuracion.php', 'icono' => 'configuracion'],
     ]],
 ];
 $accionesDashboard = [
@@ -41,7 +41,7 @@ $accionesDashboard = [
     ['texto' => 'Planificación', 'titulo' => 'Publicar menú semanal', 'detalle' => 'Organizar sopa, plato principal y postre de cada jornada.', 'ruta' => '/admin/menus.php', 'icono' => 'menu'],
     ['texto' => 'Cocina', 'titulo' => 'Consolidado de cocina', 'detalle' => 'Consultar cantidades y registrar almuerzos entregados.', 'ruta' => '/admin/cocina.php', 'icono' => 'cocina'],
     ['texto' => 'Administración', 'titulo' => 'Reporte de planilla', 'detalle' => 'Generar y revisar los descuentos del periodo mensual.', 'ruta' => '/admin/reportes.php', 'icono' => 'reporte'],
-    ['texto' => 'Configuración', 'titulo' => 'Parámetros y calendario', 'detalle' => 'Actualizar tarifas, mínimos, horarios y feriados.', 'ruta' => '/admin/configuracion.php', 'icono' => 'configuracion'],
+    ['texto' => 'Reglas de servicio', 'titulo' => 'Horario, mínimo y feriados', 'detalle' => 'Ajustar el horario límite, el mínimo mensual y el calendario operativo.', 'ruta' => '/admin/configuracion.php', 'icono' => 'configuracion'],
 ];
 $zonaBolivia = new DateTimeImmutable('now', new DateTimeZone('America/La_Paz'));
 $diasSemana = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];

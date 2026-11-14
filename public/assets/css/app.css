@@ -219,6 +219,38 @@ hr { height: 1px; margin: 32px 0; border: 0; background: #e6edf4; }
 .dashboard-nota-icono { display: grid; flex: 0 0 23px; width: 23px; height: 23px; place-items: center; border-radius: 50%; color: #1e699b; background: #e5f2fa; font-size: 12px; font-weight: 800; }
 .dashboard-nota p { margin: 0; color: #708296; font-size: 10px; line-height: 1.65; }
 .dashboard-nota strong { color: #2e4c66; }
+.tarifas-fijas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 25px 0; }
+.tarifas-fijas > div { display: grid; gap: 4px; padding: 17px 19px; border: 1px solid #dce8f2; border-radius: 12px; background: linear-gradient(135deg, #f8fbfe, #edf5fb); }
+.tarifas-fijas > div span { color: #5484a7; font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+.tarifas-fijas > div strong { color: var(--azul-profundo); font-family: Manrope, sans-serif; font-size: 27px; line-height: 1.15; }
+.tarifas-fijas > div small { color: var(--muted); font-size: 11px; }
+.tarifas-fijas > p { grid-column: 1 / -1; margin: -4px 0 0; color: #8291a0; font-size: 10px; }
+.campo-ayuda { display: block; margin-top: -4px; color: #7b8da0; font-size: 10px; }
+.menu-imagen-previa { display: block; max-height: 190px; margin: 4px 0 10px; object-fit: cover; }
+.menu-imagen-previa[hidden] { display: none; }
+.menu-semanal-dashboard { margin: 0 0 34px; }
+.menu-semanal-cabecera { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+.menu-semanal-cabecera h2 { margin: 5px 0 4px; color: #213d58; font-family: Manrope, sans-serif; font-size: 21px; letter-spacing: -.04em; }
+.menu-semanal-cabecera p { margin: 0; color: #7a8b9d; font-size: 11px; }
+.menu-semanal-ver { display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid #d7e5ef; border-radius: 8px; color: #24699e; background: #fff; font-size: 10px; font-weight: 800; text-decoration: none; transition: background .18s, border-color .18s; }
+.menu-semanal-ver:hover { border-color: #b8d1e3; background: #f5fafe; }
+.menu-semanal-ver span { font-size: 14px; }
+.menu-semanal-tarjetas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.menu-semana-card { min-width: 0; overflow: hidden; border: 1px solid #e0e9f1; border-radius: 13px; background: #fff; box-shadow: 0 5px 16px rgb(20 54 91 / 3%); transition: transform .2s, box-shadow .2s; }
+.menu-semana-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgb(20 54 91 / 8%); }
+.menu-semana-foto { position: relative; display: grid; height: 174px; place-items: center; overflow: hidden; color: #dff4f5; background: linear-gradient(135deg, #164e7a, #3d9eae); }
+.menu-semana-foto::after { position: absolute; inset: 0; border-bottom: 1px solid rgb(17 53 83 / 10%); background: linear-gradient(0deg, rgb(15 42 66 / 30%), transparent 60%); content: ''; pointer-events: none; }
+.menu-semana-foto img { width: 100%; height: 100%; object-fit: cover; }
+.menu-semana-foto.sin-foto { align-content: center; gap: 2px; background: radial-gradient(ellipse at 50% 110%, rgb(108 196 196 / 40%), transparent 54%), linear-gradient(135deg, #164e7a, #3d9eae); }
+.menu-semana-ilustracion { color: rgb(255 255 255 / 82%); font-size: 46px; line-height: 1; }
+.menu-semana-foto-texto { color: #e5f3f6; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.menu-semana-contenido { padding: 16px 17px 17px; }
+.menu-semana-fecha { display: block; margin-bottom: 12px; color: #1e6697; font-size: 11px; font-weight: 800; text-transform: capitalize; }
+.menu-semana-contenido p { display: flex; gap: 4px; margin: 7px 0; color: #64788c; font-size: 10px; line-height: 1.5; }
+.menu-semana-contenido p strong { flex: 0 0 auto; color: #2e4d68; }
+.menu-semana-reservar { display: inline-flex; align-items: center; justify-content: center; min-height: 35px; margin-top: 8px; padding: 8px 11px; border-radius: 7px; color: #fff; background: var(--azul-profundo); font-size: 10px; font-weight: 800; text-decoration: none; transition: background .18s; }
+.menu-semana-reservar:hover { color: #fff; background: #1b6598; }
+.menu-semanal-vacio, .menu-semanal-cargando { grid-column: 1 / -1; margin: 0; padding: 26px 20px; border: 1px dashed #c9d9e6; border-radius: 11px; color: #71869a; background: #f9fbfd; font-size: 12px; text-align: center; }
 .dashboard-menu-boton, .dashboard-overlay { display: none; }
 
 @media (max-width: 1180px) {
@@ -252,6 +284,9 @@ hr { height: 1px; margin: 32px 0; border: 0; background: #e6edf4; }
     .dashboard-seccion-cabecera { align-items: flex-start; flex-direction: column; gap: 5px; }
     .dashboard-seccion-cabecera h2 { font-size: 16px; }
     .dashboard-modulos, .dashboard-modulos-empleado { grid-template-columns: 1fr; gap: 10px; }
+    .menu-semanal-tarjetas, .tarifas-fijas { grid-template-columns: 1fr; }
+    .menu-semanal-cabecera { align-items: flex-start; flex-direction: column; }
+    .menu-semana-foto { height: 190px; }
     .dashboard-modulo, .dashboard-modulos-empleado .dashboard-modulo { min-height: 154px; padding: 16px; }
     .dashboard-modulo-icono { width: 34px; height: 34px; margin-bottom: 9px; }
     .dashboard-bienvenida-empleado { align-items: flex-start; }

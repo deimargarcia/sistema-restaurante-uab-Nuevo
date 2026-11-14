@@ -12,21 +12,21 @@ use Restaurante\Domain\Entity\DiaCalendario;
 
 final class ParametrosSistemaTest extends TestCase
 {
-    public function testGuardaTarifasMinimoYHorarioValidos(): void
+    public function testGuardaMinimoYHorarioSinModificarTarifasFijas(): void
     {
         $repo=new ConfiguracionEnMemoria();
-        $resultado=(new ActualizarConfiguracion($repo))->ejecutar(['tarifa_pensionado'=>'16.50','tarifa_esporadico'=>'20','minimo_almuerzos_mes'=>'12','hora_limite'=>'08:45']);
+        $resultado=(new ActualizarConfiguracion($repo))->ejecutar(['tarifa_pensionado'=>'99','tarifa_esporadico'=>'1','minimo_almuerzos_mes'=>'12','hora_limite'=>'08:45']);
         self::assertTrue($resultado->exitoso);
-        self::assertSame(16.5,$repo->configuracion?->tarifaPensionado);
+        self::assertSame(15.0,$repo->configuracion?->tarifaPensionado);
+        self::assertSame(18.0,$repo->configuracion?->tarifaEsporadico);
         self::assertSame(12,$repo->configuracion?->minimoAlmuerzosMes);
     }
 
-    public function testRechazaTarifaMinimoYHoraInvalidosSinGuardar(): void
+    public function testRechazaMinimoYHoraInvalidosSinGuardar(): void
     {
         $repo=new ConfiguracionEnMemoria();$caso=new ActualizarConfiguracion($repo);
-        self::assertFalse($caso->ejecutar(['tarifa_pensionado'=>'-1','tarifa_esporadico'=>'18','minimo_almuerzos_mes'=>'10','hora_limite'=>'09:00'])->exitoso);
-        self::assertFalse($caso->ejecutar(['tarifa_pensionado'=>'15','tarifa_esporadico'=>'18','minimo_almuerzos_mes'=>'32','hora_limite'=>'09:00'])->exitoso);
-        self::assertFalse($caso->ejecutar(['tarifa_pensionado'=>'15','tarifa_esporadico'=>'18','minimo_almuerzos_mes'=>'10','hora_limite'=>'25:00'])->exitoso);
+        self::assertFalse($caso->ejecutar(['minimo_almuerzos_mes'=>'32','hora_limite'=>'09:00'])->exitoso);
+        self::assertFalse($caso->ejecutar(['minimo_almuerzos_mes'=>'10','hora_limite'=>'25:00'])->exitoso);
         self::assertNull($repo->configuracion);
     }
 

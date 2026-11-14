@@ -52,6 +52,15 @@ async function cargarSemana() {
             const input = document.createElement('input'); input.id = label.htmlFor; input.name = campo; input.value = valor; input.maxLength = 150; input.required = true;
             tarjeta.append(label, input);
         }
+        const imagenLabel = document.createElement('label'); imagenLabel.textContent = 'Foto del menú (opcional)'; imagenLabel.htmlFor = `imagen-${clave}`;
+        const imagenInput = document.createElement('input'); imagenInput.id = imagenLabel.htmlFor; imagenInput.name = 'imagen'; imagenInput.type = 'url'; imagenInput.maxLength = 255; imagenInput.placeholder = 'https://…'; imagenInput.value = menu.imagen_path ?? '';
+        imagenInput.setAttribute('aria-describedby', `ayuda-imagen-${clave}`);
+        const ayudaImagen = document.createElement('small'); ayudaImagen.id = `ayuda-imagen-${clave}`; ayudaImagen.className = 'campo-ayuda'; ayudaImagen.textContent = 'La imagen se mostrará junto al menú en el portal del empleado.';
+        const vistaPrevia = document.createElement('img'); vistaPrevia.className = 'menu-imagen menu-imagen-previa'; vistaPrevia.alt = 'Vista previa del menú'; vistaPrevia.loading = 'lazy'; vistaPrevia.hidden = !imagenInput.value;
+        if (imagenInput.value) vistaPrevia.src = imagenInput.value;
+        vistaPrevia.addEventListener('error', () => { vistaPrevia.hidden = true; });
+        imagenInput.addEventListener('input', () => { vistaPrevia.hidden = !imagenInput.value; if (imagenInput.value) vistaPrevia.src = imagenInput.value; });
+        tarjeta.append(imagenLabel, imagenInput, ayudaImagen, vistaPrevia);
         const guardar = document.createElement('button'); guardar.type = 'submit'; guardar.className = 'boton-formulario'; guardar.textContent = 'Publicar menú';
         tarjeta.append(guardar);
         tarjeta.addEventListener('submit', async (evento) => {
