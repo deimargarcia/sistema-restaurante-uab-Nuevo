@@ -25,7 +25,7 @@ $iconosDashboard = [
     <link rel="stylesheet" href="<?= $baseDashboard ?>/assets/css/app.css">
     <script src="<?= $baseDashboard ?>/assets/js/dashboard.js" defer></script>
 </head>
-<body class="pagina-dashboard">
+<body class="pagina-dashboard <?= escaparHtml((string) ($claseDashboard ?? '')) ?>">
 <div class="dashboard-overlay" id="dashboardOverlay"></div>
 <aside class="dashboard-sidebar" id="dashboardSidebar" aria-label="Navegación principal">
     <a class="dashboard-brand" href="<?= $baseDashboard ?>/<?= $tipoDashboard === 'ADMIN' ? 'admin' : 'empleado' ?>/dashboard.php">

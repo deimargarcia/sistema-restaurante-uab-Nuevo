@@ -11,6 +11,7 @@ if (empty($_SESSION['usuario_id']) || ($_SESSION['tipo_cuenta'] ?? '') !== 'ADMI
 
 $nombreDashboard = trim((string) ($_SESSION['nombre'] ?? 'Administración'));
 $tipoDashboard = 'ADMIN';
+$claseDashboard = 'pagina-dashboard-admin-inicio';
 $rolDashboard = 'ADMINISTRACIÓN';
 $subtituloDashboard = 'Cuenta administradora';
 $tituloDashboard = 'Panel de administración';
@@ -49,27 +50,36 @@ $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agost
 $fechaDashboard = ucfirst($diasSemana[(int) $zonaBolivia->format('w')]) . ', ' . $zonaBolivia->format('j') . ' de ' . $meses[(int) $zonaBolivia->format('n') - 1];
 require __DIR__ . '/../_dashboard-start.php';
 ?>
-<section class="dashboard-bienvenida">
-    <div>
-        <span class="dashboard-kicker">PANEL DE ADMINISTRACIÓN · UAB</span>
-        <h2>Gestión del restaurante</h2>
-        <p>Organiza el servicio diario, el equipo y la planificación desde un solo lugar.</p>
-    </div>
-    <div class="dashboard-fecha"><span>HOY</span><strong><?= escaparHtml($zonaBolivia->format('d')) ?></strong><small><?= escaparHtml($meses[(int) $zonaBolivia->format('n') - 1]) ?> · <?= escaparHtml($zonaBolivia->format('Y')) ?></small></div>
-</section>
-<div class="dashboard-seccion-cabecera">
-    <div><span class="dashboard-kicker dashboard-kicker-azul">CENTRO DE OPERACIONES</span><h2>Accesos de administración</h2></div>
-    <p><?= escaparHtml($fechaDashboard) ?></p>
+<div class="admin-inicio-layout">
+    <section class="admin-inicio-principal">
+        <div class="admin-inicio-saludo">
+            <span class="dashboard-kicker dashboard-kicker-azul">PANEL DE ADMINISTRACIÓN · UAB</span>
+            <h2>Buen día, <?= escaparHtml(explode(' ', $nombreDashboard)[0]) ?>.</h2>
+            <p><?= escaparHtml($fechaDashboard) ?> · Organiza el servicio del restaurante.</p>
+        </div>
+        <article class="admin-accion-prioritaria">
+            <span class="admin-accion-icono" aria-hidden="true"><?= $iconosDashboard['menu'] ?></span>
+            <span class="dashboard-kicker">PLANIFICACIÓN DE COCINA</span>
+            <h2>Publicar menú semanal</h2>
+            <p>Completa la sopa, el plato principal y el postre de lunes a jueves. Añade una foto para que los empleados vean el menú antes de reservar.</p>
+            <a class="admin-accion-boton" href="<?= escaparHtml(rutaBasePublica()) ?>/admin/menus.php">Abrir planificación <span aria-hidden="true">→</span></a>
+        </article>
+    </section>
+    <aside class="admin-modulos-lateral" aria-labelledby="tituloModulosAdmin">
+        <div class="admin-modulos-cabecera">
+            <span class="dashboard-kicker dashboard-kicker-azul">GESTIÓN DEL RESTAURANTE</span>
+            <h2 id="tituloModulosAdmin">Módulos</h2>
+        </div>
+        <nav class="admin-modulos-lista" aria-label="Módulos de administración">
+            <?php foreach ($accionesDashboard as $accion): ?>
+                <?php if ($accion['icono'] === 'menu') continue; ?>
+                <a class="admin-modulo-enlace" href="<?= escaparHtml(rutaBasePublica() . $accion['ruta']) ?>">
+                    <span class="admin-modulo-icono" aria-hidden="true"><?= $iconosDashboard[$accion['icono']] ?></span>
+                    <span><strong><?= escaparHtml($accion['titulo']) ?></strong><small><?= escaparHtml($accion['texto']) ?></small></span>
+                    <span class="admin-modulo-flecha" aria-hidden="true">›</span>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+    </aside>
 </div>
-<section class="dashboard-modulos" aria-label="Accesos de administración">
-    <?php foreach ($accionesDashboard as $accion): ?>
-        <a class="dashboard-modulo" href="<?= escaparHtml(rutaBasePublica() . $accion['ruta']) ?>">
-            <span class="dashboard-modulo-icono" aria-hidden="true"><?= $iconosDashboard[$accion['icono']] ?></span>
-            <span class="dashboard-modulo-etiqueta"><?= escaparHtml($accion['texto']) ?></span>
-            <strong><?= escaparHtml($accion['titulo']) ?></strong>
-            <span class="dashboard-modulo-detalle"><?= escaparHtml($accion['detalle']) ?></span>
-            <span class="dashboard-modulo-ir" aria-hidden="true">→</span>
-        </a>
-    <?php endforeach; ?>
-</section>
 <?php require __DIR__ . '/../_dashboard-end.php'; ?>
