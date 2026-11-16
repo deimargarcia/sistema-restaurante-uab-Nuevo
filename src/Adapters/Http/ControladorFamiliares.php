@@ -33,6 +33,7 @@ final readonly class ControladorFamiliares
             (int) ($datos['titular_id'] ?? 0),
             (string) ($datos['nombre'] ?? ''),
             (string) ($datos['parentesco'] ?? ''),
+            (string) ($datos['ci'] ?? ''),
         );
 
         return [

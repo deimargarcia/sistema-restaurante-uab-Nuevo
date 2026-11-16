@@ -34,13 +34,18 @@ $iconosDashboard = [
     </a>
     <nav class="dashboard-nav">
         <?php foreach ($gruposNavegacion as $grupo): ?>
-            <span class="dashboard-nav-titulo"><?= escaparHtml($grupo['titulo']) ?></span>
-            <?php foreach ($grupo['enlaces'] as $enlace): ?>
-                <a class="dashboard-nav-enlace<?= !empty($enlace['activo']) ? ' activo' : '' ?>" href="<?= $baseDashboard . escaparHtml($enlace['ruta']) ?>"<?= !empty($enlace['activo']) ? ' aria-current="page"' : '' ?>>
-                    <span class="dashboard-nav-icono" aria-hidden="true"><?= $iconosDashboard[$enlace['icono']] ?></span>
-                    <span><?= escaparHtml($enlace['texto']) ?></span>
-                </a>
-            <?php endforeach; ?>
+            <?php $grupoActivo = count(array_filter($grupo['enlaces'], static fn (array $enlace): bool => !empty($enlace['activo']))) > 0; ?>
+            <details class="dashboard-nav-grupo"<?= $grupoActivo ? ' open' : '' ?>>
+                <summary class="dashboard-nav-titulo"><?= escaparHtml($grupo['titulo']) ?></summary>
+                <div class="dashboard-nav-enlaces">
+                    <?php foreach ($grupo['enlaces'] as $enlace): ?>
+                        <a class="dashboard-nav-enlace<?= !empty($enlace['activo']) ? ' activo' : '' ?>" href="<?= $baseDashboard . escaparHtml($enlace['ruta']) ?>" title="<?= escaparHtml($enlace['texto']) ?>" aria-label="<?= escaparHtml($enlace['texto']) ?>"<?= !empty($enlace['activo']) ? ' aria-current="page"' : '' ?>>
+                            <span class="dashboard-nav-icono" aria-hidden="true"><?= $iconosDashboard[$enlace['icono']] ?></span>
+                            <span><?= escaparHtml($enlace['texto']) ?></span>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </details>
         <?php endforeach; ?>
     </nav>
     <div class="dashboard-sidebar-pie">
@@ -54,7 +59,7 @@ $iconosDashboard = [
 <div class="dashboard-principal">
     <header class="dashboard-topbar">
         <div class="dashboard-topbar-inicio">
-            <button class="dashboard-menu-boton" id="dashboardMenuBoton" type="button" aria-label="Abrir menú" aria-controls="dashboardSidebar" aria-expanded="false">☰</button>
+            <button class="dashboard-menu-boton" id="dashboardMenuBoton" type="button" aria-label="Contraer o expandir módulos" aria-controls="dashboardSidebar" aria-expanded="false" title="Contraer o expandir módulos">☰</button>
             <div><span class="dashboard-miga">RUMBO AL CIELO <i>/</i> <?= escaparHtml($rolDashboard) ?></span><h1><?= escaparHtml($tituloDashboard) ?></h1></div>
         </div>
         <div class="dashboard-topbar-acciones">

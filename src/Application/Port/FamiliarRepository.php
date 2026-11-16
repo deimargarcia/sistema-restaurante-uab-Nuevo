@@ -11,5 +11,7 @@ interface FamiliarRepository
 
     public function titularEmpleadoExiste(int $titularId): bool;
 
+    public function ciExiste(string $ci): bool;
+
     public function crear(Familiar $familiar): int;
 }

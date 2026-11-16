@@ -21,7 +21,7 @@ final class ControladorFamiliaresTest extends TestCase
         $repositorio = new RepositorioFamiliarHttp();
         $controlador = new ControladorFamiliares(new RegistrarFamiliar($repositorio), $repositorio);
 
-        $respuesta = $controlador->registrar(['titular_id' => 42, 'nombre' => 'Familiar', 'parentesco' => 'HIJO']);
+        $respuesta = $controlador->registrar(['titular_id' => 42, 'nombre' => 'Familiar', 'parentesco' => 'HIJO', 'ci' => '12345']);
 
         self::assertFalse($respuesta['exito']);
         self::assertNull($repositorio->guardado);
@@ -34,7 +34,7 @@ final class ControladorFamiliaresTest extends TestCase
         $controlador = new ControladorFamiliares(new RegistrarFamiliar($repositorio), $repositorio);
 
         $titulares = $controlador->listarTitulares();
-        $respuesta = $controlador->registrar(['titular_id' => 42, 'nombre' => 'Hijo de prueba', 'parentesco' => 'HIJO']);
+        $respuesta = $controlador->registrar(['titular_id' => 42, 'nombre' => 'Hijo de prueba', 'parentesco' => 'HIJO', 'ci' => '12345']);
 
         self::assertTrue($titulares['exito']);
         self::assertCount(1, $titulares['titulares']);
@@ -55,6 +55,11 @@ final class RepositorioFamiliarHttp implements FamiliarRepository
     public function titularEmpleadoExiste(int $titularId): bool
     {
         return $titularId === 42;
+    }
+
+    public function ciExiste(string $ci): bool
+    {
+        return false;
     }
 
     public function crear(Familiar $familiar): int

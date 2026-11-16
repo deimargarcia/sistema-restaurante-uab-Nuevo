@@ -52,7 +52,19 @@ $esPensionado = ($_SESSION['tipo_cuenta'] ?? '') === 'PENSIONADO';
             <button class="boton-formulario" id="enviar-reserva" type="submit">Confirmar reserva</button>
         </form>
         <p class="mensaje" id="mensaje-reserva" role="status" aria-live="polite"></p>
-        <h2>Mis reservas</h2>
+        <?php if ($esPensionado): ?>
+            <div class="reservas-seccion-cabecera">
+                <h2>Mis reservas</h2>
+                <a class="enlace-afiliar-familiar" href="<?= escaparHtml(rutaBasePublica()) ?>/empleado/pensionamiento.php">Afiliar familiar para el mes <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="filtros-reservas" role="group" aria-label="Filtrar reservas por beneficiario">
+                <button class="filtro-reservas activo" type="button" aria-pressed="true" data-filtro="TODOS">Todas <span id="totalTodas">0</span></button>
+                <button class="filtro-reservas" type="button" aria-pressed="false" data-filtro="TITULAR">Mis almuerzos <span id="totalTitular">0</span></button>
+                <button class="filtro-reservas" type="button" aria-pressed="false" data-filtro="FAMILIAR">Familiares <span id="totalFamiliares">0</span></button>
+            </div>
+        <?php else: ?>
+            <h2>Mis reservas</h2>
+        <?php endif; ?>
         <div id="lista-reservas" class="lista-reservas" aria-live="polite">Cargando…</div>
     </section>
 </main>
@@ -62,6 +74,9 @@ const beneficiario = document.querySelector('#beneficiario');
 const mensaje = document.querySelector('#mensaje-reserva');
 const lista = document.querySelector('#lista-reservas');
 const boton = document.querySelector('#enviar-reserva');
+const filtros = document.querySelectorAll('[data-filtro]');
+let reservasCargadas = [];
+let filtroActual = 'TODOS';
 const nombresEstado = {
     RESERVADO: 'Reservado',
     CANCELADO: 'Cancelado',
@@ -79,8 +94,21 @@ async function cargarReservas() {
     const respuesta = await fetch('../api/reservas.php');
     const resultado = await respuesta.json();
     if (!resultado.exito) throw new Error(resultado.mensaje);
-    if (resultado.reservas.length === 0) {
-        lista.textContent = 'Todavía no tienes reservas registradas.';
+    reservasCargadas = resultado.reservas;
+    document.querySelector('#totalTodas')?.replaceChildren(document.createTextNode(String(reservasCargadas.length)));
+    document.querySelector('#totalTitular')?.replaceChildren(document.createTextNode(String(reservasCargadas.filter((r) => r.tipo_beneficiario !== 'FAMILIAR').length)));
+    document.querySelector('#totalFamiliares')?.replaceChildren(document.createTextNode(String(reservasCargadas.filter((r) => r.tipo_beneficiario === 'FAMILIAR').length)));
+    dibujarReservas();
+}
+
+function dibujarReservas() {
+    const reservas = reservasCargadas.filter((r) => filtroActual === 'TODOS' || (filtroActual === 'FAMILIAR' ? r.tipo_beneficiario === 'FAMILIAR' : r.tipo_beneficiario !== 'FAMILIAR'));
+    if (reservas.length === 0) {
+        lista.textContent = filtroActual === 'FAMILIAR'
+            ? 'Todavía no hay reservas registradas para tus familiares.'
+            : filtroActual === 'TITULAR'
+                ? 'Todavía no tienes almuerzos reservados a tu nombre.'
+                : 'Todavía no tienes reservas registradas.';
         return;
     }
     const tabla = document.createElement('table');
@@ -95,7 +123,7 @@ async function cargarReservas() {
     head.append(encabezado);
     tabla.append(head);
     const cuerpo = document.createElement('tbody');
-    for (const reserva of resultado.reservas) {
+    for (const reserva of reservas) {
         const fila = document.createElement('tr');
         const valores = [reserva.fecha_reserva, reserva.tipo_beneficiario === 'FAMILIAR' ? reserva.nombre_familiar : 'Titular', nombresEstado[reserva.estado] ?? reserva.estado, reserva.modalidad === 'PENSIONADO' ? 'Mensual' : 'Esporádica'];
         for (const valor of valores) {
@@ -119,6 +147,18 @@ async function cargarReservas() {
     }
     tabla.append(cuerpo);
     lista.replaceChildren(tabla);
+}
+
+for (const filtro of filtros) {
+    filtro.addEventListener('click', () => {
+        filtroActual = filtro.dataset.filtro;
+        for (const opcion of filtros) {
+            const seleccionado = opcion === filtro;
+            opcion.classList.toggle('activo', seleccionado);
+            opcion.setAttribute('aria-pressed', String(seleccionado));
+        }
+        dibujarReservas();
+    });
 }
 
 async function cancelarReserva(reservaId) {

@@ -9,6 +9,7 @@ final readonly class Familiar
         public int $titularId,
         public string $nombre,
         public string $parentesco,
+        public string $ci,
     ) {
     }
 }
